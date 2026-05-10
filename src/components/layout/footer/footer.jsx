@@ -57,7 +57,7 @@ export const Footer = () => {
                     <p className="footer-tagline-cta" style={{ marginBottom: '10px' }}>
                         Pronto para colocar sua empresa no mapa digital?
                     </p>
-                    <a href="https://wa.me/5500000000000" className="footer-cta">
+                    <a href="https://wa.me/5511950803544" className="footer-cta">
                         Quero alavancar <br />meu negócio
                     </a>
                     <ul className="footer-links" style={{ marginTop: '10px' }}>
