@@ -1,49 +1,96 @@
+/* ==============================================
+   DESIGN — MAIN SECTION
+   ============================================== */
 .container-design-main-section {
   display: flex;
   justify-content: center;
-  padding: 137px 157px 150px 158px;
+  padding: var(--spacing-section-y) var(--spacing-section-x);
   background-color: var(--color-secondary-black);
+  width: 100%;
 }
 
-
-.content_design_main_section{
-    background-color: var(--color-secondary-black);
-    display: flex;
-    align-items: center;
-    gap: 33px;
+.content_design_main_section {
+  background-color: var(--color-secondary-black);
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 33px);
+  width: 100%;
+  max-width: 1200px;
 }
 
-.container_title_main_section_design{
-    display: flex;
+.container_title_main_section_design {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  flex: 1;
+  min-width: 0;
+}
+
+.container_title_main_section_design h1 {
+  font-family: var(--font-title);
+  font-size: var(--font-headline-h2-size);
+  color: var(--color-primary-green);
+  text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+  width: 100%;
+  max-width: 320px;
+  text-transform: uppercase;
+}
+
+.container_title_main_section_design p {
+  font-family: var(--font-style);
+  font-size: var(--font-headline-style-size);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  max-width: 320px;
+}
+
+.content_design_main_section img {
+  width: clamp(60px, 8vw, 103px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+.content_design_main_section h2 {
+  font-family: var(--font-title);
+  font-size: var(--font-headline-h3-size);
+  color: var(--color-secondary-white);
+  width: 100%;
+  max-width: 750px;
+  line-height: 1.2;
+  flex: 2;
+}
+
+/* ==============================================
+   RESPONSIVIDADE
+   ============================================== */
+@media (max-width: 900px) {
+  .content_design_main_section {
     flex-direction: column;
-    gap: 19px;
- }
+    text-align: center;
+    gap: 32px;
+  }
 
-.container_title_main_section_design h1{
-    font-family: var(--font-title);
-    font-size: var(--font-headline-h2-size);
-    color: var(--color-secondary-white);
-    color: var(--color-primary-green);
-    width: 300px
+  .container_title_main_section_design {
+    align-items: center;
+  }
+
+  .container_title_main_section_design h1,
+  .container_title_main_section_design p,
+  .content_design_main_section h2 {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .content_design_main_section img {
+    display: none; /* Ícone decorativo oculto em mobile */
+  }
 }
 
-.container_title_main_section_design p{
-    font-family: var(--font-style);
-    font-size: var(--font-headline-style-size);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
-    width: 300px;
-}
-
-.content_design_main_section img{
-    width: 103px;
-}
-
-.content_design_main_section h2{
-    font-family: var(--font-title);
-    font-size: var(--font-headline-h3-size);
-    color: var(--color-secondary-white);
-    width: 750px;
+@media (max-width: 480px) {
+  .container_title_main_section_design p {
+    letter-spacing: 2px;
+  }
 }

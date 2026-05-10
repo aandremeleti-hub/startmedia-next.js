@@ -1,51 +1,75 @@
-
+/* ==============================================
+   DESIGN — DOME SECTION
+   ============================================== */
 .design-dome-section {
-  width: 100vw;
-  height: 100vh;      /* altura visível */
-  position: relative; /* importante por causa do absolute lá dentro */
-  overflow: hidden;   /* pra não vazar nada pra fora */
-  background: var(--color-secondary-black); /* só pra você enxergar melhor o efeito */
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-secondary-black);
 }
 
-.title_dome_section{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 120px 0px 28px 0px;
-    background-color: var(--color-secondary-black);
-    color: var(--color-secondary-white);
-    gap: 14px;
-    font-size: var(--font-headline-h4-size);
-    font-family: var(--font-title);
+.title_dome_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: clamp(60px, 10vw, 120px) 0 28px;
+  background-color: var(--color-secondary-black);
+  color: var(--color-secondary-white);
+  gap: clamp(8px, 2vw, 14px);
+  font-size: var(--font-headline-h4-size);
+  font-family: var(--font-title);
+  text-align: center;
 }
 
-.title_dome_section h1{
-    font-size: var(--font-subheadline-h2-size);
-    color: var(--color-primary-green);
-    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+.title_dome_section h1 {
+  font-size: var(--font-subheadline-h2-size);
+  color: var(--color-primary-green);
+  text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
 }
 
-.secondary_title_dome_section{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 0px 42px 0px;
-    background-color: var(--color-secondary-black);
-    color: var(--color-secondary-white);
-    font-size: var(--font-headline-h4-size);
-    font-family: var(--font-title);
+.secondary_title_dome_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 var(--spacing-section-x) clamp(24px, 4vw, 42px);
+  background-color: var(--color-secondary-black);
+  color: var(--color-secondary-white);
+  font-size: var(--font-headline-h4-size);
+  font-family: var(--font-title);
+  gap: 16px;
+  text-align: center;
 }
 
-.secondary_title_dome_section img{
-    width: 200px;
-}
-
-.design-dome-section {
-  background: #000;
+.secondary_title_dome_section img {
+  width: clamp(120px, 15vw, 200px);
+  height: auto;
 }
 
 .dome-wrapper {
   width: 100%;
   height: 600px;
   background: #000;
+}
+
+/* ==============================================
+   RESPONSIVIDADE
+   ============================================== */
+@media (max-width: 768px) {
+  .design-dome-section {
+    height: auto;
+    min-height: 60vh;
+  }
+
+  .dome-wrapper {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dome-wrapper {
+    height: 300px;
+  }
 }

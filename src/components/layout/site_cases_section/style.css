@@ -1,34 +1,57 @@
-.site_secondary_cards_section{
-    background-color: var(--color-secondary-black);
-    padding: 50px 0px 60px 0px;
-    display: flex;
+/* ==============================================
+   SITE — CASES SECTION
+   ============================================== */
+.site_secondary_cards_section {
+  background-color: var(--color-secondary-black);
+  padding: var(--spacing-section-y) var(--spacing-section-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.site_secondary_cards_section h1 {
+  font-size: var(--font-subheadline-h2-size);
+  color: var(--color-primary-green);
+  text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+  text-align: center;
+  font-family: var(--font-title);
+  padding: 0 20px;
+}
+
+.site_secondary_cards_section h2 {
+  color: var(--color-secondary-white);
+  width: 100%;
+  max-width: 520px;
+  font-size: var(--font-headline-style-size);
+  font-family: var(--font-body);
+  line-height: 26px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.container_secondary_cards_site {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  gap: clamp(24px, 4vw, 48px);
+  width: 100%;
+}
+
+/* ==============================================
+   RESPONSIVIDADE
+   ============================================== */
+@media (max-width: 900px) {
+  .site_secondary_cards_section h2 {
+    max-width: 100%;
+  }
+
+  .container_secondary_cards_site {
     flex-direction: column;
     align-items: center;
-    gap: 24px;
-}
-
-.site_secondary_cards_section h1{
-    font-size: var(--font-subheadline-h2-size);
-    color: var(--color-primary-green);
-    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
-    text-align: center;
-    font-family: var(--font-title);
-}
-
-.site_secondary_cards_section h2{
-    color: var(--color-secondary-white);
-    width: 520px;
-    font-size: var(--font-headline-style-size);
-    font-family: var(--font-body);
-    line-height: 26px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
-
-.container_secondary_cards_site{
-    display: flex;
-    justify-content: center;
-    margin-top: 32px;
-    gap: 48px;
+  }
 }

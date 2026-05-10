@@ -1,20 +1,50 @@
-* {
+/* ==============================================
+   RESET & BASE
+   ============================================== */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   border: 0;
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Previne scroll horizontal global */
+}
+
+.root-body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Dupla proteção contra overflow horizontal */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==============================================
+   DESIGN TOKENS — CORES
+   ============================================== */
 :root {
   --color-primary-green: #00FF85; /* Verde Néon */
   --color-green-solid: #00CC6A;
-  --color-green-light:#009387;
+  --color-green-light: #009387;
   --color-green-dark: #003D20;
   --color-green-night: #0D2B1A;
 
   --color-secondary-white: #F0F0F0; /* Off-white */
   --color-secondary-black: #080808; /* Preto Abissal */
-  --color-secondary-gray: #1A1A1A; /* Carvão */
+  --color-secondary-gray: #1A1A1A;  /* Carvão */
   --color-secondary-graphite: #2C2C2C; /* Grafite */
 
   /* Brand Gradients */
@@ -25,19 +55,29 @@
   --grad-neon-cyan: linear-gradient(135deg, #00FF85 0%, #00FFD1 100%);
   --grad-white-pure: linear-gradient(135deg, #F0F0F0 0%, #FFFFFF 100%);
 
+  /* ==============================================
+     TIPOGRAFIA FLUIDA (Responsive)
+     ============================================== */
+  --font-headline-h1-size: clamp(36px, 5vw + 1rem, 60px);
+  --font-headline-h2-size: clamp(32px, 4vw + 1rem, 48px);
+  --font-subheadline-h2-size: clamp(28px, 3.5vw + 1rem, 40px);
+  --font-headline-h3-size: clamp(22px, 2.5vw + 0.5rem, 28px);
+  --font-headline-h4-size: clamp(16px, 2vw + 0.25rem, 21px);
 
-  --font-headline-h1-size: 60px;
-  --font-headline-h2-size: 48px;
-  --font-subheadline-h2-size: 40px;
-  --font-headline-h3-size: 28px;
-  --font-headline-h4-size: 21px;
+  --font-headline-body-size: clamp(14px, 1.5vw + 0.5rem, 16px);
+  --font-headline-button-size: clamp(15px, 1.5vw + 0.5rem, 20px);
+  --font-headline-style-size: clamp(14px, 1.5vw + 0.5rem, 18px);
 
-  --font-headline-body-size: 16px;
-  --font-headline-button-size: 20px;
-  --font-headline-style-size: 20px;
-
+  /* Famílias tipográficas */
   --font-title: var(--font-barlow), sans-serif;
   --font-body: var(--font-syne), sans-serif;
   --font-button: var(--font-syne), sans-serif;
   --font-style: var(--font-syne-mono), monospace;
+
+  /* ==============================================
+     ESPAÇAMENTOS FLUIDOS
+     ============================================== */
+  --spacing-section-y: clamp(60px, 8vw, 120px);
+  --spacing-section-x: clamp(20px, 5vw, 80px);
+  --spacing-inner-gap: clamp(24px, 4vw, 60px);
 }

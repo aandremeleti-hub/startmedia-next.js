@@ -1,85 +1,169 @@
-main{
-    background: var(--color-secondary-black);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
+/* ==============================================
+   MAIN — HOME HERO
+   ============================================== */
+main {
+  background: var(--color-secondary-black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
 .content-main {
-    display: flex;
-    align-items: center;
-    padding: 73px 206px;
-    z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(24px, 5vw, 60px);
+  padding: var(--spacing-section-y) var(--spacing-section-x);
+  width: 100%;
+  max-width: 1400px;
+  z-index: 2;
 }
 
+/* --- Caixa de Texto --- */
 .box-text-main {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 28px);
+  flex: 1;
+  min-width: 0; /* Previne overflow em flex */
 }
 
-.box-text-main h1{
-    color: var(--color-secondary-white);
-    font-size: var(--font-headline-h1-size);
-    width: 427px;
-    font-family: var(--font-title);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
+.box-text-main h1 {
+  color: var(--color-secondary-white);
+  font-size: var(--font-headline-h1-size);
+  max-width: 520px;
+  width: 100%;
+  font-family: var(--font-title);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
 }
 
-.box-text-main p{
-    color: rgba(255, 255, 255, 0.7);
-    font-size: var(--font-headline-style-size);
-    text-transform: uppercase;
-    letter-spacing: 3.8px;
-    font-weight: 600;
-    font-family: var(--font-style);
-    width: 280px;
-    text-align: left;
-    opacity: 0.9;
+.box-text-main p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--font-headline-style-size);
+  text-transform: uppercase;
+  letter-spacing: 3.8px;
+  font-weight: 600;
+  font-family: var(--font-style);
+  max-width: 340px;
+  width: 100%;
+  text-align: left;
+  opacity: 0.9;
 }
 
-.highlighted-word{
-    color: var(--color-primary-green);
-    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+.highlighted-word {
+  color: var(--color-primary-green);
+  text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
 }
 
+/* --- Botão CTA --- */
 .box-button-main {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 
-.box-text-main button{
-      font-size: var(--font-headline-button-size);
-      text-decoration: none;
-      background: var(--grad-neon-solid);
-      color: var(--color-secondary-black);
-      padding: 16px 42px;
-      border: none;
-      border-radius: 100px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: all 0.3s ease;
-      cursor: pointer;
+.box-text-main button {
+  font-size: var(--font-headline-button-size);
+  font-family: var(--font-button);
+  text-decoration: none;
+  background: var(--grad-neon-solid);
+  color: var(--color-secondary-black);
+  padding: clamp(12px, 2vw, 16px) clamp(28px, 4vw, 42px);
+  border: none;
+  border-radius: 100px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .box-text-main button:hover {
-      background: var(--color-primary-green);
-      box-shadow: 0 0 30px rgba(0, 255, 133, 0.4);
-      transform: translateY(-3px);
+  background: var(--color-primary-green);
+  box-shadow: 0 0 30px rgba(0, 255, 133, 0.4);
+  transform: translateY(-3px);
 }
 
+/* --- Imagem Hero --- */
+.content-main > img,
+.content-main > span { /* Next/Image wraps in span */
+  flex-shrink: 0;
+  max-width: min(50%, 560px);
+  height: auto;
+}
+
+/* --- Cards da Home --- */
 .box-cards-main {
-    display: flex;
-    justify-content: center;
-    gap: 38px;
-    z-index: 2;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3vw, 38px);
+  padding: 0 var(--spacing-section-x) var(--spacing-section-y);
+  z-index: 2;
+  width: 100%;
 }
 
+/* ==============================================
+   RESPONSIVIDADE
+   ============================================== */
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .content-main {
+    padding: clamp(50px, 8vw, 100px) var(--spacing-section-x);
+  }
+
+  .content-main > img,
+  .content-main > span {
+    max-width: 45%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .content-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 60px var(--spacing-section-x) 40px;
+  }
+
+  .box-text-main {
+    align-items: center;
+  }
+
+  .box-text-main h1,
+  .box-text-main p {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .box-text-main p {
+    letter-spacing: 2px;
+  }
+
+  .content-main > img,
+  .content-main > span {
+    max-width: min(100%, 400px);
+    order: -1; /* Imagem acima do texto em mobile */
+  }
+
+  .box-cards-main {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .box-text-main p {
+    letter-spacing: 1.5px;
+  }
+}

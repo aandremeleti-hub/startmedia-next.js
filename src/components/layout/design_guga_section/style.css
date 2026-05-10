@@ -1,68 +1,156 @@
-.design_guga_section{
-    background-color: var(--color-secondary-black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ==============================================
+   DESIGN — GUGA SECTION
+   ============================================== */
+.design_guga_section {
+  background-color: var(--color-secondary-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 60px);
+  padding: var(--spacing-section-y) var(--spacing-section-x);
+  width: 100%;
 }
 
-.design_guga_section img{
-    width: 50%;
+/* Imagem principal (foto do Guga) */
+.design_guga_section > img {
+  width: clamp(240px, 40%, 560px);
+  height: auto;
+  flex-shrink: 0;
 }
 
-.design_guga_section_content{
-    color: var(--color-secondary-white);
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    width: 50%;
+/* Coluna de conteúdo — flex: 1 garante que ocupe o espaço restante */
+.design_guga_section_content {
+  color: var(--color-secondary-white);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.5vw, 32px);
+  flex: 1;
+  min-width: 0;
+  max-width: 580px;
 }
 
+/* --- Badge --- */
 .design-guga-badge {
-    width: 358px;
-    height: 68px;
-    background-color: var(--color-green-solid);
-    border-radius: 34px;
-    display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 180px;
+  height: clamp(52px, 6vw, 68px);
+  padding: 0 clamp(20px, 3vw, 36px);
+  background-color: var(--color-green-solid);
+  border-radius: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary-gray);
+  font-family: var(--font-body);
+  font-size: var(--font-headline-style-size);
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: default;
+  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
+}
+
+/* Título principal */
+.design_guga_section_content h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-family: var(--font-title);
+  width: 100%;
+  line-height: 1.2;
+}
+
+/* --- Items / Checklist --- */
+.design_guga_section_item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Ícone do checklist — NÃO escala, só a foto principal escala */
+.design_guga_section_item img {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.design_guga_section_item h2 {
+  color: var(--color-primary-green);
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-family: var(--font-title);
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* Parágrafo */
+.design_guga_section_content p {
+  font-family: var(--font-body);
+  font-size: var(--font-headline-style-size);
+  width: 100%;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* ==============================================
+   RESPONSIVIDADE — TABLET
+   ============================================== */
+@media (max-width: 1024px) {
+  .design_guga_section {
+    gap: clamp(20px, 3vw, 40px);
+  }
+
+  .design_guga_section > img {
+    width: clamp(200px, 38%, 420px);
+  }
+}
+
+/* ==============================================
+   RESPONSIVIDADE — MOBILE
+   ============================================== */
+@media (max-width: 768px) {
+  .design_guga_section {
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    color: var(--color-secondary-gray); /* #009387 */
-    font-family: var(--font-body);
-    font-size: var(--font-headline-style-size);
-    font-weight: 800;
-    text-transform: uppercase;
-    cursor: default;
-    user-select: none;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
+    text-align: center;
+    padding: 60px var(--spacing-section-x);
+    gap: 32px;
+  }
 
+  /* Foto empilha no topo */
+  .design_guga_section > img {
+    width: 100%;
+    max-width: 320px;
+    order: -1;
+  }
 
-.design_guga_section_content h1{
-    font-size: var(--font-headline-h2-size);
-    font-family: var(--font-title);
-    width: 80%;
-}
-
-.design_guga_section_item{
-    display: flex;
+  /* Conteúdo ocupa tudo */
+  .design_guga_section_content {
+    width: 100%;
+    max-width: 100%;
     align-items: center;
-    gap: 12px;
-    height: 30px;
-    width: 80%
-}
+    gap: 20px;
+  }
 
-.design_guga_section_item img{
-    width: 30px;
-    height: 30px;
-}
+  /* Título e parágrafo centralizados */
+  .design_guga_section_content h1,
+  .design_guga_section_content p {
+    text-align: center;
+    max-width: 100%;
+  }
 
-.design_guga_section_item h2{
-    color: var(--color-primary-green);
-    font-size: var(--font-headline-h3-size);
-    font-family: var(--font-title);
-}
+  /* Items do checklist: alinhados à esquerda dentro do flex centralizado */
+  .design_guga_section_item {
+    justify-content: flex-start;
+    text-align: left;
+    width: 100%;
+    max-width: 360px;
+  }
 
-.design_guga_section_content p{
-    font-family: var(--font-body);
-    font-size: var(--font-headline-style-size);
-    width: 80%
+  .design_guga_section_item h2 {
+    text-align: left;
+    font-size: 1rem;
+  }
 }

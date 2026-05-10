@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="pt-BR"
-      className={`${barlow.variable} ${syne.variable} ${syneMono.variable} h-full antialiased`}
+      className={`${barlow.variable} ${syne.variable} ${syneMono.variable}`}
     >
       <head>
         <link
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
       </head>
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>{children}</body>
+      <body className="root-body" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

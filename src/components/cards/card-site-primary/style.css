@@ -1,87 +1,83 @@
-/* wrapper opcional, caso você queira centralizar a seção */
+/* ==============================================
+   CARD SITE PRIMARY
+   ============================================== */
 .content-card-site {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* CARD */
 .card-site {
-    background: var(--grad-charcoal-graphite);      /* fundo carvão -> grafite */
-    background: linear-gradient(90deg,
-            rgba(0, 0, 0, 0.8) 0%,
-            /* topo mais escuro */
-            rgba(60, 61, 54, 0.6) 100%
-            /* parte inferior mais clara */
-        );
-    border-radius: 33px;            /* cantos bem arredondados */
-    padding: 51px 0px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 29px;
-    box-shadow:
-        0 0 0 1px rgba(0, 255, 133, 0.08),        /* borda neon ultra-sutil */
-        0 8px 24px rgba(0, 255, 133, 0.12),        /* glow neon próximo */
-        0 24px 64px rgba(0, 0, 0, 0.40);          /* sombra preta profunda */
-    transition: all 0.40s ease;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(60, 61, 54, 0.6) 100%
+  );
+  border-radius: 33px;
+  padding: clamp(32px, 5vw, 51px) 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 29px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 133, 0.08),
+    0 8px 24px rgba(0, 255, 133, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.40);
+  transition: all 0.40s ease;
 }
 
-/* HOVER — elevação com glow intensificado */
 .card-site:hover {
-    box-shadow:
-        0 0 0 1px rgba(0, 255, 133, 0.20),        /* borda neon mais viva */
-        0 12px 40px rgba(0, 255, 133, 0.15),       /* glow neon intensificado */
-        0 32px 80px rgba(0, 0, 0, 0.60);          /* sombra preta mais funda */
-    transform: translateY(-8px);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 133, 0.20),
+    0 12px 40px rgba(0, 255, 133, 0.15),
+    0 32px 80px rgba(0, 0, 0, 0.60);
+  transform: translateY(-8px);
 }
 
-
-
-/* título */
 .card-site-title {
-    font-size: var(--font-headline-h3-size);
-    font-family: var(--font-title);
-    color: var(--color-secondary-white);
+  font-size: var(--font-headline-h3-size);
+  font-family: var(--font-title);
+  color: var(--color-secondary-white);
 }
 
-/* parágrafo */
 .card-site-text {
-    font-size: var(--font-headline-h4-size);
-    color: var(--color-secondary-white);
-    font-family: var(--font-body);
-    width: 480px;
-    padding: 0 24px;
-    box-sizing: border-box;
+  font-size: var(--font-headline-h4-size);
+  color: var(--color-secondary-white);
+  font-family: var(--font-body);
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
-/* container das listas (duas colunas) */
 .card-site-items {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 40px);
+  margin-top: 16px;
+  flex-wrap: wrap;
+  padding: 0 20px;
 }
 
-/* cada coluna de itens */
 .card-site-column {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* cada linha "• ícone + texto" */
 .card-site-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: var(--font-body);
-    color: var(--color-secondary-white);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-body);
+  color: var(--color-secondary-white);
 }
 
-/* ícone da bullet */
 .card-site-item img {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
 }

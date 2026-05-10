@@ -330,10 +330,26 @@
 /* Responsiveness */
 @media (max-width: 768px) {
   .card, .chatContainer, .resultCard {
-    padding: 2rem;
+    padding: 1.5rem;
   }
   
   .title {
     font-size: var(--font-headline-h3-size);
+  }
+
+  /* Logo não sobrepõe conteúdo em mobile */
+  .cardLogo {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 72px;
+    display: block;
+    margin: 0 auto 1rem;
+  }
+
+  /* Compensar espaço do header no mobile */
+  .header, .resultHeader {
+    margin-top: 0;
+    padding-top: 0.5rem;
   }
 }

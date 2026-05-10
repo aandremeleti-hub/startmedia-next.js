@@ -1,91 +1,85 @@
-/* wrapper opcional, caso você queira centralizar a seção */
+/* ==============================================
+   CARD DESIGN
+   ============================================== */
 .content-card-design {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* CARD */
 .card-design {
-    background-color: var(--color-secondary-gray);
-    background: linear-gradient(90deg,
-            rgba(0, 0, 0, 0.8) 0%,
-            /* topo mais escuro */
-            rgba(60, 61, 54, 0.6) 100%
-            /* parte inferior mais clara */
-        );      /* fundo escuro */
-    border-radius: 33px;            /* cantos bem arredondados */
-    padding: 51px 0px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 29px;
-    box-shadow:
-        0 0 0 1px rgba(0, 147, 135, 0.12),        /* borda teal ultra-sutil */
-        0 8px 24px rgba(0, 147, 135, 0.18),        /* glow teal próximo — identidade de marca */
-        0 24px 64px rgba(0, 147, 135, 0.10),       /* glow teal difuso */
-        0 48px 100px rgba(0, 0, 0, 0.50);          /* sombra preta profunda — ancora o card */
-    transition: box-shadow 0.40s ease, transform 0.40s ease;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(60, 61, 54, 0.6) 100%
+  );
+  border-radius: 33px;
+  padding: clamp(32px, 5vw, 51px) 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 29px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow:
+    0 0 0 1px rgba(0, 147, 135, 0.12),
+    0 8px 24px rgba(0, 147, 135, 0.18),
+    0 24px 64px rgba(0, 147, 135, 0.10),
+    0 48px 100px rgba(0, 0, 0, 0.50);
+  transition: box-shadow 0.40s ease, transform 0.40s ease;
 }
 
-/* HOVER — elevação com glow intensificado */
 .card-design:hover {
-    box-shadow:
-        0 0 0 1px rgba(0, 147, 135, 0.22),        /* borda teal mais viva */
-        0 8px 30px rgba(0, 147, 135, 0.30),        /* glow teal próximo intenso */
-        0 28px 72px rgba(0, 147, 135, 0.18),       /* glow teal difuso intenso */
-        0 56px 110px rgba(0, 0, 0, 0.60);          /* sombra preta mais funda */
-    transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgba(0, 147, 135, 0.22),
+    0 8px 30px rgba(0, 147, 135, 0.30),
+    0 28px 72px rgba(0, 147, 135, 0.18),
+    0 56px 110px rgba(0, 0, 0, 0.60);
+  transform: translateY(-5px);
 }
 
-
-/* título */
 .card-design-title {
-    font-size: var(--font-headline-h3-size);
-    font-family: var(--font-title);
-    color: var(--color-secondary-white);
+  font-size: var(--font-headline-h3-size);
+  font-family: var(--font-title);
+  color: var(--color-secondary-white);
 }
 
-/* parágrafo */
 .card-design-text {
-    font-size: var(--font-headline-h4-size);
-    color: var(--color-secondary-white);
-    font-family: var(--font-body);
-    width: 480px;
-    padding: 0 24px;
-    box-sizing: border-box;
+  font-size: var(--font-headline-h4-size);
+  color: var(--color-secondary-white);
+  font-family: var(--font-body);
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
-/* container das listas (duas colunas) */
 .card-design-items {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 40px);
+  margin-top: 16px;
+  flex-wrap: wrap;
+  padding: 0 20px;
 }
 
-/* cada coluna de itens */
 .card-design-column {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* cada linha "• ícone + texto" */
 .card-design-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: var(--font-body);
-    color: var(--color-secondary-white);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-body);
+  color: var(--color-secondary-white);
 }
 
-/* ícone da bullet */
 .card-design-item img {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
 }
-
-
-

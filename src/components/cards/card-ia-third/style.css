@@ -1,48 +1,98 @@
-.content-card-ia-third{
-    color: var(--color-secondary-white);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--color-secondary-black);
-    gap: 40px;
-    width: 386px;
-    height: 260px;
+/* ==============================================
+   CARD IA THIRD (Specialists / Testimonials)
+   ============================================== */
+.content-card-ia-third {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(60, 61, 54, 0.6) 100%
+  );
+  width: 100%;
+  max-width: 386px;
+  min-height: clamp(200px, 25vw, 260px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 36px;
+  padding: clamp(24px, 4vw, 40px) clamp(20px, 3vw, 36px);
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary-white);
+  gap: clamp(12px, 2vw, 22px);
+  box-shadow:
+    0 0 0 1px rgba(0, 147, 135, 0.12),
+    0 8px 24px rgba(0, 147, 135, 0.18),
+    0 24px 64px rgba(0, 147, 135, 0.10),
+    0 48px 100px rgba(0, 0, 0, 0.50);
+  transition: box-shadow 0.40s ease, transform 0.40s ease;
 }
 
-.container-card-ia-third{
-    display: flex;
-    gap: 16px;
+.content-card-ia-third:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 147, 135, 0.22),
+    0 8px 30px rgba(0, 147, 135, 0.30),
+    0 28px 72px rgba(0, 147, 135, 0.18),
+    0 56px 110px rgba(0, 0, 0, 0.60);
+  transform: translateY(-5px);
 }
 
-.line-image-container-card-ia-third{
-    width: 153px;
+/* Linha + aspas + linha */
+.container-card-ia-third {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.title-card-ia-third{
-    font-family: var(--font-style);
-    font-size: var(--font-headline-style-size);
-    width: 286px;
-    text-align: center;
+.line-image-container-card-ia-third {
+  width: clamp(80px, 12vw, 153px);
+  height: auto;
 }
 
-.container-name-card-ia-third{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Citação — BRANCO */
+.title-card-ia-third {
+  font-family: var(--font-style);
+  font-size: var(--font-headline-style-size);
+  width: 100%;
+  max-width: 286px;
+  text-align: center;
+  color: var(--color-secondary-white);
+  line-height: 1.5;
 }
 
-.container-name-card-ia-third h2{
-    color: var(--color-primary-green);
-    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
-    font-size: calc(var(--font-headline-style-size) + 4px);
-    font-family: var(--font-button);
-    font-weight: 700;
+/* Nome e cargo */
+.container-name-card-ia-third {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.container-name-card-ia-third h3{
-    color: var(--color-primary-green);
-    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
-    font-size: var(--font-headline-style-size);
-    font-family: var(--font-body);
-    font-weight: 200;
+/* Nome — VERDE */
+.container-name-card-ia-third h2 {
+  color: var(--color-primary-green);
+  text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+  font-size: calc(var(--font-headline-style-size) + 4px);
+  font-family: var(--font-button);
+  font-weight: 700;
+}
+
+/* Cargo — VERDE mais suave */
+.container-name-card-ia-third h3 {
+  color: var(--color-primary-green);
+  text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+  font-size: var(--font-headline-style-size);
+  font-family: var(--font-body);
+  font-weight: 200;
+}
+
+/* ==============================================
+   RESPONSIVIDADE
+   ============================================== */
+@media (max-width: 768px) {
+  .content-card-ia-third {
+    max-width: 100%;
+  }
+
+  .title-card-ia-third {
+    max-width: 100%;
+  }
 }
