@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# O Netlify detecta o Next.js automaticamente, mas estas configurações
+# garantem que o comando de build e o diretório de publicação estão corretos.
