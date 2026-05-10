@@ -1,0 +1,21 @@
+.content-ia-primary-cards {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-secondary-black);
+    color: var(--color-secondary-white);
+}
+
+.title-ia-primary-cards {
+    text-align: center;
+    font-size: var(--font-subheadline-h2-size);
+    color: var(--color-primary-green);
+    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+    font-family: var(--font-title);
+}
+
+.container-ia-primary-cards {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    padding: 87px 0px 96px 0px;
+}

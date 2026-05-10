@@ -1,0 +1,20 @@
+.design_cards_section{
+    background-color: var(--color-secondary-black);
+}
+
+.title-design-cards {
+    color: var(--color-secondary-white);
+    text-align: center;
+    font-family: var(--font-title);
+    font-size: var(--font-subheadline-h2-size);
+    color: var(--color-primary-green);
+    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+}
+
+.container-cards-design{
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    gap: 117px;
+
+}

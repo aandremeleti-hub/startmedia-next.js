@@ -1,0 +1,21 @@
+.content-ia-specialists-section{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-secondary-black);
+    align-items: center;
+    gap: 75px;
+    
+}
+
+.title-ia-third-cards{
+    font-size: var(--font-subheadline-h2-size);
+    color: var(--color-primary-green);
+    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+    font-family: var(--font-title)
+}
+
+.container-ia-third-cards{
+    display: flex;
+    gap: 60px;
+    margin-bottom: 156px;
+}

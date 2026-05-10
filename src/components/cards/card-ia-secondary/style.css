@@ -1,0 +1,53 @@
+.content-card-ia-secondary{
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            /* topo mais escuro */
+            rgba(60, 61, 54, 0.6) 100%
+            /* parte inferior mais clara */
+        );
+    width: 280px;
+    height: 280px;
+    border-radius: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    box-shadow:
+        0 0 0 1px rgba(0, 147, 135, 0.12),        /* borda teal ultra-sutil */
+        0 8px 24px rgba(0, 147, 135, 0.18),        /* glow teal próximo — identidade de marca */
+        0 24px 64px rgba(0, 147, 135, 0.10),       /* glow teal difuso */
+        0 48px 100px rgba(0, 0, 0, 0.50);          /* sombra preta profunda — ancora o card */
+    transition: box-shadow 0.40s ease, transform 0.40s ease;
+}
+
+/* HOVER — elevação com glow intensificado */
+.content-card-ia-secondary:hover {
+    box-shadow:
+        0 0 0 1px rgba(0, 147, 135, 0.22),        /* borda teal mais viva */
+        0 8px 30px rgba(0, 147, 135, 0.30),        /* glow teal próximo intenso */
+        0 28px 72px rgba(0, 147, 135, 0.18),       /* glow teal difuso intenso */
+        0 56px 110px rgba(0, 0, 0, 0.60);          /* sombra preta mais funda */
+    transform: translateY(-5px);
+}
+
+.content-card-ia-secondary img{
+     width: 33px;
+     height: 33px;
+     margin-top: -20px
+}
+
+.content-card-ia-secondary h1{
+    text-align: center;
+    font-size: var(--font-headline-button-size);
+    font-family: var(--font-button);
+    color: var(--color-primary-green);
+    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+}
+
+.content-card-ia-secondary p{
+    text-align: center;
+    width: 196px;
+    font-size: calc(var(--font-headline-body-size) + 2px);
+    font-family: var(--font-body);
+} 

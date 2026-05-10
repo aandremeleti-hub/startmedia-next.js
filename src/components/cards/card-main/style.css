@@ -1,0 +1,95 @@
+.card-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 40px; /* Adjusted padding for better balance */
+    gap: 19px;
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            /* topo mais escuro */
+            rgba(60, 61, 54, 0.6) 100%
+            /* parte inferior mais clara */
+        );
+    border-radius: 12px;
+    border: 1px solid var(--color-secondary-graphite);
+    margin-bottom: 81px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 320px; /* More consistent sizing */
+}
+
+.card-main:hover {
+    border-color: var(--color-primary-green);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 255, 133, 0.1);
+    transform: translateY(-5px);
+}
+
+.card-main img {
+    width: 75px;
+    height: 71px;
+    transition: transform 0.3s ease;
+}
+
+.card-main:hover img {
+    transform: scale(1.1);
+}
+
+.card-main h3 {
+    color: var(--color-secondary-white);
+    font-size: var(--font-headline-h3-size);
+    font-family: var(--font-title);
+    text-align: center;
+}
+
+.card-main p {
+    font-size: var(--font-headline-body-size);
+    font-family: var(--font-body);
+    text-align: center;
+    color: var(--color-secondary-white);
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
+.card-main-button {
+    background: transparent;
+    color: var(--color-primary-green);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+}
+
+.card-button-icon {
+    width: 60px;
+    height: 45px;
+    background: var(--grad-neon-solid);
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 255, 133, 0.2);
+}
+
+.card-button-icon svg {
+    width: 60px;
+    height: 60px;
+}
+
+.card-main-button:hover {
+    color: var(--color-secondary-white);
+    gap: 18px;
+}
+
+.card-main-button:hover .card-button-icon {
+    background: var(--color-primary-green);
+    box-shadow: 0 0 20px rgba(0, 255, 133, 0.5);
+    transform: scale(1.1);
+}

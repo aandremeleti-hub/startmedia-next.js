@@ -1,0 +1,121 @@
+.content-secondary-card-site{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-secondary-gray);
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            /* topo mais escuro */
+            rgba(60, 61, 54, 0.6) 100%
+            /* parte inferior mais clara */
+        );
+    color: var(--color-secondary-white);
+    padding: 36px 40px;
+    gap: 24px;
+    width: 520px;
+    border-radius: 36px;
+    box-shadow:
+        0 0 0 1px rgba(0, 147, 135, 0.12),        /* borda teal ultra-sutil */
+        0 8px 24px rgba(0, 147, 135, 0.18),        /* glow teal próximo — identidade de marca */
+        0 24px 64px rgba(0, 147, 135, 0.10),       /* glow teal difuso */
+        0 48px 100px rgba(0, 0, 0, 0.50);          /* sombra preta profunda — ancora o card */
+    transition: box-shadow 0.40s ease, transform 0.40s ease;
+}
+
+/* HOVER — elevação com glow intensificado */
+.content-secondary-card-site:hover {
+    box-shadow:
+        0 0 0 1px rgba(0, 147, 135, 0.22),        /* borda teal mais viva */
+        0 8px 30px rgba(0, 147, 135, 0.30),        /* glow teal próximo intenso */
+        0 28px 72px rgba(0, 147, 135, 0.18),       /* glow teal difuso intenso */
+        0 56px 110px rgba(0, 0, 0, 0.60);          /* sombra preta mais funda */
+    transform: translateY(-5px);
+}
+
+.secondary-card-image{
+    width: 100%;
+    height: 260px;
+    background-color: var(--color-secondary-white);
+    border-radius: 24px;
+    padding: 40px;
+    object-fit: contain;
+    box-sizing: border-box;
+}
+
+.box-title-secondary-card-site{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.box-title-secondary-card-site h2{
+    font-size: var(--font-headline-h3-size);
+    font-family: var(--font-title);
+    margin: 0;
+    }
+
+.image-title-secondary-card-site{
+  margin-left: auto; /* NOVO: empurra a seta para a extrema direita */
+  display: block;    /* NOVO: remove espaçamento “inline” da imagem */
+}
+
+.text-secondary-card-site{
+    width: 100%;
+    font-size: var(--font-headline-h3-size);
+    font-family: var(--font-body);
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.box-secondary-card-site-items{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.secondary-card-site-items{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0px 8px;
+    gap: 16px;
+}
+
+.card-site-left-items{
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+}
+ 
+.card-site-left-items img{
+    width: 4.75px;
+    height: 4.75px;
+}
+
+.card-site-left-items p{
+    display: flex;
+    text-align: left;
+}
+
+.card-site-right-items{
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+}
+ 
+.card-site-right-items img{
+    width: 4.75px;
+    height: 4.75px;
+}
+
+.card-site-right-items p{
+    display: flex;
+    text-align: left;
+}

@@ -1,0 +1,54 @@
+.content-card-ia-primary{
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            /* topo mais escuro */
+            rgba(60, 61, 54, 0.6) 100%
+            /* parte inferior mais clara */
+        );
+    width: 377px;
+    height: 504px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 36px;
+    padding: 42px;
+    align-items: center;
+    color: var(--color-secondary-white);
+    gap: 30px;
+    box-shadow:
+        0 0 0 1px rgba(0, 147, 135, 0.12),        /* borda teal ultra-sutil */
+        0 8px 24px rgba(0, 147, 135, 0.18),        /* glow teal próximo — identidade de marca */
+        0 24px 64px rgba(0, 147, 135, 0.10),       /* glow teal difuso */
+        0 48px 100px rgba(0, 0, 0, 0.50);          /* sombra preta profunda — ancora o card */
+    transition: box-shadow 0.40s ease, transform 0.40s ease;
+}
+
+/* HOVER — elevação com glow intensificado */
+.content-card-ia-primary:hover {
+    box-shadow:
+        0 0 0 1px rgba(0, 147, 135, 0.22),        /* borda teal mais viva */
+        0 8px 30px rgba(0, 147, 135, 0.30),        /* glow teal próximo intenso */
+        0 28px 72px rgba(0, 147, 135, 0.18),       /* glow teal difuso intenso */
+        0 56px 110px rgba(0, 0, 0, 0.60);          /* sombra preta mais funda */
+    transform: translateY(-5px);
+}
+.content-card-ia-primary img{
+    width: 223px;
+    height: 231px;
+}
+
+.content-card-ia-primary h1{
+    font-family: var(--font-title);
+    font-size: var(--font-headline-h3-size);
+    margin-top: -30px;
+    color: var(--color-primary-green);
+    text-shadow: 0 0 15px rgba(0, 255, 133, 0.3);
+}
+
+.content-card-ia-primary p{
+    text-align: center;
+    width: 265px;
+    font-size: calc(var(--font-headline-body-size) + 2px);
+    font-family: var(--font-body);
+    margin-top: 20px;
+    
+}

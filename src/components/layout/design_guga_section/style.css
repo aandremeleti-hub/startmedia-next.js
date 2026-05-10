@@ -1,0 +1,68 @@
+.design_guga_section{
+    background-color: var(--color-secondary-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.design_guga_section img{
+    width: 50%;
+}
+
+.design_guga_section_content{
+    color: var(--color-secondary-white);
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    width: 50%;
+}
+
+.design-guga-badge {
+    width: 358px;
+    height: 68px;
+    background-color: var(--color-green-solid);
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-secondary-gray); /* #009387 */
+    font-family: var(--font-body);
+    font-size: var(--font-headline-style-size);
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: default;
+    user-select: none;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+.design_guga_section_content h1{
+    font-size: var(--font-headline-h2-size);
+    font-family: var(--font-title);
+    width: 80%;
+}
+
+.design_guga_section_item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 30px;
+    width: 80%
+}
+
+.design_guga_section_item img{
+    width: 30px;
+    height: 30px;
+}
+
+.design_guga_section_item h2{
+    color: var(--color-primary-green);
+    font-size: var(--font-headline-h3-size);
+    font-family: var(--font-title);
+}
+
+.design_guga_section_content p{
+    font-family: var(--font-body);
+    font-size: var(--font-headline-style-size);
+    width: 80%
+}

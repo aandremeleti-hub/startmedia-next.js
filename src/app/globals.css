@@ -1,26 +1,43 @@
-@import "tailwindcss";
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --color-primary-green: #00FF85; /* Verde Néon */
+  --color-green-solid: #00CC6A;
+  --color-green-light:#009387;
+  --color-green-dark: #003D20;
+  --color-green-night: #0D2B1A;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-secondary-white: #F0F0F0; /* Off-white */
+  --color-secondary-black: #080808; /* Preto Abissal */
+  --color-secondary-gray: #1A1A1A; /* Carvão */
+  --color-secondary-graphite: #2C2C2C; /* Grafite */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Brand Gradients */
+  --grad-abyssal-charcoal: linear-gradient(135deg, #080808 0%, #1A1A1A 100%);
+  --grad-abyssal-green: linear-gradient(135deg, #080808 0%, #003D20 100%);
+  --grad-charcoal-graphite: linear-gradient(135deg, #1A1A1A 0%, #2C2C2C 100%);
+  --grad-neon-solid: linear-gradient(135deg, #00FF85 0%, #00CC6A 100%);
+  --grad-neon-cyan: linear-gradient(135deg, #00FF85 0%, #00FFD1 100%);
+  --grad-white-pure: linear-gradient(135deg, #F0F0F0 0%, #FFFFFF 100%);
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+  --font-headline-h1-size: 60px;
+  --font-headline-h2-size: 48px;
+  --font-subheadline-h2-size: 40px;
+  --font-headline-h3-size: 28px;
+  --font-headline-h4-size: 21px;
+
+  --font-headline-body-size: 16px;
+  --font-headline-button-size: 20px;
+  --font-headline-style-size: 20px;
+
+  --font-title: var(--font-barlow), sans-serif;
+  --font-body: var(--font-syne), sans-serif;
+  --font-button: var(--font-syne), sans-serif;
+  --font-style: var(--font-syne-mono), monospace;
 }
