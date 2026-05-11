@@ -80,4 +80,17 @@ video {
   --spacing-section-y: clamp(60px, 8vw, 120px);
   --spacing-section-x: clamp(20px, 5vw, 80px);
   --spacing-inner-gap: clamp(24px, 4vw, 60px);
+
+  /* ==============================================
+     TOKENS SEMÂNTICOS — MODAIS
+     ============================================== */
+  --modal-border-radius: 24px;
+  --modal-padding-fluid: clamp(28px, 5vw, 56px);
+  --modal-gap-fluid: clamp(20px, 3vw, 36px);
+  --modal-img-height-mobile: clamp(180px, 40vw, 280px);
+  --modal-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-primary-green) 15%, transparent),
+    0 24px 64px color-mix(in srgb, var(--color-secondary-black) 80%, transparent);
+  --modal-body-font-size: clamp(15px, 1.6vw + 0.4rem, 18px);
+  --modal-btn-bounce-delay: 6s;
 }

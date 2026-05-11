@@ -1,56 +1,325 @@
+/* ==============================================
+   MODAL SITE — PREMIUM LAYOUT
+   Zero hardcoded values. 100% CSS variables.
+   ============================================== */
+
+/* -----------------------------------------------
+   WRAPPER EXTERNO (MUI Modal backdrop override)
+   ----------------------------------------------- */
 .modal-content-site {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-  padding: 20px;
-  overflow: hidden;
+    /* Posicionamento central absoluto (padrão MUI) */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Layout side-by-side em desktop */
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    /* Dimensões fluidas */
+    width: clamp(320px, 90vw, 960px);
+    max-height: 90vh;
+
+    /* Estética Premium */
+    background: var(--color-secondary-black);
+    border-radius: var(--modal-border-radius);
+    overflow: hidden;
+    box-shadow: var(--modal-shadow);
+    border: 1px solid color-mix(in srgb, var(--color-primary-green) 12%, transparent);
+
+    /* Foco de acessibilidade */
+    outline: none;
 }
 
-.modal-site-image{
-    height: 397px;
+/* -----------------------------------------------
+   LINHA DO TOPO — Título + Logo na mesma linha
+   ----------------------------------------------- */
+.modal-info-top-row-site {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
 }
 
+/* Container do logo — lado direito da linha do topo */
+.modal-info-header-site {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Não comprime o logo */
+}
 
+.modal-logo-site {
+    width: clamp(70px, 9vw, 110px);
+    height: auto;
+    display: block;
+}
+
+/* -----------------------------------------------
+   COLUNA ESQUERDA — Imagem de capa
+   ----------------------------------------------- */
+.modal-image-col-site {
+    position: relative;
+    flex: 0 0 45%;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+/* -----------------------------------------------
+   COLUNA DIREITA — Conteúdo informativo
+   ----------------------------------------------- */
 .modal-info-content-site {
-  display: flex;
-  flex-direction: column;
-  padding: clamp(28px, 5vw, 50px) clamp(24px, 5vw, 66px);
-  width: 90%;
-  max-width: 529px;
-  background: linear-gradient(
-    90deg,
-    rgba(153, 175, 156, 0.8) 0%,
-    rgba(4, 202, 47, 0.6) 100%
-  );
-  border-radius: 20px;
-  gap: 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--modal-gap-fluid);
+    padding: var(--modal-padding-fluid);
+
+    /* Gradiente sólido — zero transparência */
+    background: var(--grad-abyssal-green);
+    overflow-y: auto;
 }
 
-.modal-info-content-site h2{
+/* -----------------------------------------------
+   TÍTULO COM ÍCONE
+   ----------------------------------------------- */
+.container-modal-title-site {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.modal-info-content-site h2 {
     font-size: var(--font-headline-h3-size);
     font-family: var(--font-title);
+    font-weight: 700;
+    color: var(--color-primary-green);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
 }
 
-.modal-info-content-site p{
-    font-size: var(--font-headline-body-size);
-    font-family: var(--font-title);
-    font-weight: 500; /* SEMIBOLD */
-    line-height: 1.4;
+/* -----------------------------------------------
+   PARÁGRAFO — Copy persuasiva
+   ----------------------------------------------- */
+.modal-description-site {
+    font-size: var(--modal-body-font-size);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--color-secondary-white);
+    opacity: 0.92;
 }
 
-.modal-info-content-site div{
+/* -----------------------------------------------
+   CTA CONTAINER
+   ----------------------------------------------- */
+.container-modal-cta-site {
     display: flex;
-    align-items: center;    
+    align-items: center;
+    margin-top: 4px;
 }
 
-.modal-info-content-site div a{
+/* -----------------------------------------------
+   BOTÃO "SAIBA MAIS"
+   Fase 1: 0–3s → btnRevealSite (transparente → acende)
+   Fase 2: após 3s → bounceAttentionSite (infinite)
+   ----------------------------------------------- */
+.btn-modal-site {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    /* Dimensionamento */
+    padding: 14px 28px;
+
+    /* Estado inicial: completamente transparente */
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    cursor: pointer;
+
+    /* Tipografia */
+    font-family: var(--font-button);
+    font-size: var(--font-headline-button-size);
+    font-weight: 700;
+    color: transparent;
+    /* começa invisível */
     text-decoration: none;
-    font-family: var(--font-button);  
-    font-size: var(--font-headline-button-size);  
-    color: var(--color-secondary-black);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+
+    /* Sombra começa zerada */
+    box-shadow: none;
+
+    /* Transição hover — só ativa depois que o reveal terminou */
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.25s ease;
+
+    /*
+     * Duas animações encadeadas:
+     * 1. btnRevealSite: dura 3s, roda 1 vez, mantém estado final (forwards)
+     * 2. bounceAttentionSite: começa após 3s, infinite
+    */
+    animation:
+        btnRevealSite 3s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+        bounceAttentionSite 0.9s cubic-bezier(0.36, 0.07, 0.19, 0.97) var(--modal-btn-bounce-delay) infinite;
+}
+
+.btn-modal-site:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 8px 30px color-mix(in srgb, var(--color-primary-green) 55%, transparent);
+    filter: brightness(1.08);
+}
+
+/* Ícone de seta dentro do botão */
+.btn-modal-site img {
+    display: block;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.btn-modal-site:hover img {
+    transform: translateX(5px);
+}
+
+/* -----------------------------------------------
+   @KEYFRAMES — Reveal gradual (0 → 3s)
+   Botão "acende" do invisível ao estado pleno
+   ----------------------------------------------- */
+@keyframes btnRevealSite {
+    0% {
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+        box-shadow: none;
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0.3;
+        border-color: color-mix(in srgb, var(--color-primary-green) 40%, transparent);
+        color: color-mix(in srgb, var(--color-secondary-black) 40%, transparent);
+    }
+
+    70% {
+        opacity: 0.75;
+        background: color-mix(in srgb, var(--color-primary-green) 60%, transparent);
+        border-color: var(--color-primary-green);
+        color: color-mix(in srgb, var(--color-secondary-black) 80%, transparent);
+        box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary-green) 25%, transparent);
+    }
+
+    100% {
+        opacity: 1;
+        background: var(--grad-neon-solid);
+        border-color: transparent;
+        color: var(--color-secondary-black);
+        box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary-green) 35%, transparent);
+    }
+}
+
+/* -----------------------------------------------
+   @KEYFRAMES — Bounce infinito (após 3s)
+   ----------------------------------------------- */
+@keyframes bounceAttentionSite {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    20% {
+        transform: translateY(-18px) scale(1.06);
+    }
+
+    40% {
+        transform: translateY(0) scale(0.97);
+    }
+
+    60% {
+        transform: translateY(-9px) scale(1.02);
+    }
+
+    80% {
+        transform: translateY(0) scale(0.99);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==============================================
+   RESPONSIVIDADE — TABLET (max 1024px)
+   ============================================== */
+@media (max-width: 1024px) {
+    .modal-content-site {
+        width: clamp(320px, 94vw, 720px);
+    }
+
+    .modal-image-col-site {
+        flex: 0 0 40%;
+        min-height: 360px;
+    }
+}
+
+/* ==============================================
+   RESPONSIVIDADE — MOBILE/TABLET PEQUENO (max 768px)
+   ============================================== */
+@media (max-width: 768px) {
+    .modal-content-site {
+        flex-direction: column;
+        width: 92vw;
+        max-height: 88vh;
+        overflow-y: auto;
+    }
+
+    .modal-image-col-site {
+        flex: none;
+        width: 100%;
+        height: var(--modal-img-height-mobile);
+        min-height: unset;
+    }
+
+    .modal-info-content-site {
+        padding: clamp(20px, 5vw, 36px) clamp(18px, 4vw, 30px);
+        gap: clamp(14px, 3vw, 22px);
+        overflow-y: visible;
+    }
+
+    /* Logo ligeiramente menor em mobile */
+    .modal-logo-site {
+        width: 80px;
+    }
+
+    .btn-modal-site {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ==============================================
+   RESPONSIVIDADE — MOBILE PEQUENO (max 480px)
+   ============================================== */
+@media (max-width: 480px) {
+    .modal-content-site {
+        width: 96vw;
+        border-radius: calc(var(--modal-border-radius) * 0.75);
+    }
+
+    .modal-info-content-site h2 {
+        font-size: var(--font-headline-h4-size);
+    }
+
+    .modal-description-site {
+        font-size: var(--font-headline-body-size);
+    }
+
+    /* Logo menor em telas muito pequenas */
+    .modal-logo-site {
+        width: 60px;
+    }
 }
