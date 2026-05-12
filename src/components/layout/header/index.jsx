@@ -6,11 +6,20 @@ import logo from '../../../assets/images/home/logo.svg';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import { useModals } from '../../../context/ModalContext';
+
 export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { openModal } = useModals();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleNavClick = (e, modalName) => {
+        e.preventDefault();
+        openModal(modalName);
+        setIsMenuOpen(false);
     };
 
     return (
@@ -33,9 +42,9 @@ export const Header = () => {
             <nav className={`nav-header ${isMenuOpen ? 'open' : ''}`}>
                 <ul>
                     <li><Link href="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
-                    <li><Link href="/design" onClick={() => setIsMenuOpen(false)}>Design</Link></li>
-                    <li><Link href="/site" onClick={() => setIsMenuOpen(false)}>Site</Link></li>
-                    <li><Link href="/ia" onClick={() => setIsMenuOpen(false)}>Ia</Link></li>
+                    <li><Link href="/design" onClick={(e) => handleNavClick(e, 'design')}>Design</Link></li>
+                    <li><Link href="/site" onClick={(e) => handleNavClick(e, 'site')}>Site</Link></li>
+                    <li><Link href="/ia" onClick={(e) => handleNavClick(e, 'ia')}>Ia</Link></li>
                 </ul>
                 {/* Botão de diagnóstico visível apenas no menu mobile */}
                 <Link className='btn-header mobile-btn' href="/diagnostico" onClick={() => setIsMenuOpen(false)}>

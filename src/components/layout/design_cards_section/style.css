@@ -18,21 +18,26 @@
 }
 
 .container-cards-design {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: clamp(40px, 6vw, 80px);
-  gap: clamp(24px, 4vw, 60px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(30px, 4vw, 60px);
+  margin: clamp(40px, 6vw, 80px) auto 0;
   width: 100%;
+  max-width: 1140px;
 }
 
 /* ==============================================
    RESPONSIVIDADE
    ============================================== */
+@media (max-width: 1024px) {
+  .container-cards-design {
+    gap: 30px;
+  }
+}
+
 @media (max-width: 768px) {
   .container-cards-design {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
     margin-top: 40px;
     gap: 32px;
   }

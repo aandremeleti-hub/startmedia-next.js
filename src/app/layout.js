@@ -24,6 +24,8 @@ export const metadata = {
   description: "Soluções integradas em marketing, automação e inteligência artificial.",
 };
 
+import { ModalProvider } from "@/context/ModalContext";
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -36,7 +38,11 @@ export default function RootLayout({ children }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
       </head>
-      <body className="root-body" suppressHydrationWarning>{children}</body>
+      <body className="root-body" suppressHydrationWarning>
+        <ModalProvider>
+          {children}
+        </ModalProvider>
+      </body>
     </html>
   );
 }

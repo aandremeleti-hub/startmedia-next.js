@@ -7,43 +7,11 @@ import button_card_main from '../../../assets/images/home/button_card_main.svg'
 import design_icon from '../../../assets/images/home/design_icon.svg'
 import site_icon from '../../../assets/images/home/site_icon.svg'
 import ia_icon from '../../../assets/images/home/ia_icon.svg'
-import { useState } from 'react'
-import { ModalDesign } from '../../modals/modalDesign'
-import { ModalSite } from '../../modals/modalSite'
-import { ModalIa } from '../../modals/modalIa'
+import { useModals } from '../../../context/ModalContext'
 import Image from 'next/image'
 
 export const Main = () => {
-
-    const [openModalDesign, setOpenModalDesign] = useState(false)
-
-    const abrirModalDesign = () => {
-        setOpenModalDesign(true)
-    }
-
-    const fecharModalDesign = () => {
-        setOpenModalDesign(false)
-    }
-
-    const [openModalSite, setOpenModalSite] = useState(false)
-
-    const abrirModalSite = () => {
-        setOpenModalSite(true)
-    }
-
-    const fecharModalSite = () => {
-        setOpenModalSite(false)
-    }
-
-    const [openModalIa, setOpenModalIa] = useState(false)
-
-    const abrirModalIa = () => {
-        setOpenModalIa(true)
-    }
-
-    const fecharModalIa = () => {
-        setOpenModalIa(false)
-    }
+    const { openModal } = useModals();
 
     return (
         <main>
@@ -65,29 +33,23 @@ export const Main = () => {
                     titulo={<>Design <br /> Estratégico</>}
                     paragrafo="Construa uma marca com autoridade visual imediata. Transmita confiança e destaque-se dos seus concorrentes."
                     image_button={button_card_main}
-                    abrirModal={abrirModalDesign} />
+                    abrirModal={() => openModal('design')} />
 
                 <CardMain
                     image={site_icon}
                     titulo="Sites & Landing Pages"
                     paragrafo="Muito mais que uma vitrine. Criamos o seu vendedor mais eficiente, focado em transformar visitantes em clientes reais."
                     image_button={button_card_main}
-                    abrirModal={abrirModalSite}/>
+                    abrirModal={() => openModal('site')}/>
 
                 <CardMain
                     image={ia_icon}
                     titulo="Atendimento com IA"
                     paragrafo="Não perca vendas por demora. Tenha um assistente inteligente que atende e qualifica seus leads 24 horas por dia."
                     image_button={button_card_main}
-                    abrirModal={abrirModalIa} />
+                    abrirModal={() => openModal('ia')} />
 
             </div>
-
-            <ModalDesign open={openModalDesign} onClose={fecharModalDesign} />
-            <ModalSite open={openModalSite} onClose={fecharModalSite} />
-            <ModalIa open={openModalIa} onClose={fecharModalIa} />
-
-
         </main>
     )
 }

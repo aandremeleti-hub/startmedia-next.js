@@ -13,26 +13,28 @@
     padding: 0 20px;
 }
 
-.container_primary_cards_site{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 80px;
-    gap: clamp(30px, 5vw, 117px); /* Fluid gap */
+.container_site_cards_section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(30px, 4vw, 60px);
+    margin: clamp(40px, 6vw, 80px) auto 0;
     width: 100%;
+    max-width: 1140px;
 }
 
-/* Responsive Wrap for cards */
+/* ==============================================
+   RESPONSIVIDADE
+   ============================================== */
 @media (max-width: 1024px) {
-    .container_primary_cards_site {
-        flex-wrap: wrap;
+    .container_site_cards_section {
+        gap: 30px;
     }
 }
 
 @media (max-width: 768px) {
-    .container_primary_cards_site {
-        flex-direction: column;
-        margin-top: 50px;
-        gap: 40px;
+    .container_site_cards_section {
+        grid-template-columns: 1fr;
+        margin-top: 40px;
+        gap: 32px;
     }
 }
