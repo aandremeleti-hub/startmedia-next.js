@@ -22,6 +22,9 @@ const syneMono = Syne_Mono({
 export const metadata = {
   title: "STARTMEDIA",
   description: "Soluções integradas em marketing, automação e inteligência artificial.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 import { ModalProvider } from "@/context/ModalContext";
