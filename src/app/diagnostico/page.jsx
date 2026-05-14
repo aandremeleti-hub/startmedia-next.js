@@ -82,18 +82,20 @@ export default function DiagnosticoPage() {
         if (prev <= 1) {
           clearInterval(timerRef.current);
           timerRef.current = null;
-          // Dispara o modal de countdown final
-          shouldTimeoutRef.current = true;
           setShowTimeoutModal(true);
           setCountdownSeconds(10);
+          
+          // Limpa qualquer intervalo anterior antes de iniciar o novo
+          if (countdownRef.current) clearInterval(countdownRef.current);
+          
           countdownRef.current = setInterval(() => {
             setCountdownSeconds(p => {
               if (p <= 1) {
                 clearInterval(countdownRef.current);
                 countdownRef.current = null;
-                if (shouldTimeoutRef.current) {
-                  setStep('timeout');
-                }
+                // Encerramento incondicional da sessão
+                setShowTimeoutModal(false);
+                setStep('timeout');
                 return 0;
               }
               return p - 1;
@@ -203,9 +205,9 @@ export default function DiagnosticoPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          history,
+          history, // Enviamos o histórico estável (sem a resposta atual do usuário)
           userMessage: userAnswer
-            ? `Minha resposta: ${userAnswer}`
+            ? userAnswer // Enviamos a resposta atual de forma limpa
             : 'Inicie o diagnóstico com a mensagem de abertura e a primeira pergunta.'
         })
       });
@@ -248,12 +250,14 @@ export default function DiagnosticoPage() {
     e?.preventDefault();
     const answer = inputValue.trim();
     if (!answer) return;
-    const newHistory = [
-      ...history,
+
+    // Atualiza a interface imediatamente para o usuário
+    setHistory(prev => [
+      ...prev,
       { role: 'assistant', content: currentQuestion.pergunta },
       { role: 'user', content: answer }
-    ];
-    setHistory(newHistory);
+    ]);
+
     setCurrentQuestion(null);
     setInputValue('');
     setShowOther(false);
@@ -263,12 +267,13 @@ export default function DiagnosticoPage() {
 
   const handleChipSelect = async (opcao) => {
     if (opcao === 'Outro') { setShowOther(true); return; }
-    const newHistory = [
-      ...history,
+
+    setHistory(prev => [
+      ...prev,
       { role: 'assistant', content: currentQuestion.pergunta },
       { role: 'user', content: opcao }
-    ];
-    setHistory(newHistory);
+    ]);
+
     setCurrentQuestion(null);
     setShowOther(false);
     await fetchNextQuestion(opcao);
@@ -278,12 +283,13 @@ export default function DiagnosticoPage() {
     e?.preventDefault();
     const answer = otherInput.trim();
     if (!answer) return;
-    const newHistory = [
-      ...history,
+
+    setHistory(prev => [
+      ...prev,
       { role: 'assistant', content: currentQuestion.pergunta },
       { role: 'user', content: answer }
-    ];
-    setHistory(newHistory);
+    ]);
+
     setCurrentQuestion(null);
     setShowOther(false);
     setOtherInput('');
@@ -403,33 +409,36 @@ export default function DiagnosticoPage() {
         {/* ── STEP: QUIZ ── */}
         {step === 'quiz' && (
           <div className={styles.chatContainer}>
-            {/* Header */}
-            <div className={styles.chatHeader}>
-              <Image src={logo} alt="StartMedia Logo" className={styles.chatLogo} />
-              <div className={styles.chatHeaderText}>
-                <h2>STARTMEDIA IA</h2>
-                <span className={styles.chatHeaderSub}>Diagnóstico Digital Personalizado</span>
+            {/* Bloco superior fixo (Blur) */}
+            <div className={styles.topStickyArea}>
+              {/* Header */}
+              <div className={styles.chatHeader}>
+                <Image src={logo} alt="StartMedia Logo" className={styles.chatLogo} />
+                <div className={styles.chatHeaderText}>
+                  <h2>STARTMEDIA IA</h2>
+                  <span className={styles.chatHeaderSub}>Diagnóstico Digital Personalizado</span>
+                </div>
+                <div className={styles.onlineIndicator}><span className={styles.onlineDot}></span>Online</div>
               </div>
-              <div className={styles.onlineIndicator}><span className={styles.onlineDot}></span>Online</div>
+
+              {/* Progress Bar */}
+              {currentQuestion?.perguntaNumero && (
+                <div className={styles.progressWrap}>
+                  <div className={styles.progressBar} style={{ width: `${progressPercent}%` }} />
+                  <span className={styles.progressLabel}>Pergunta {currentQuestion.perguntaNumero} de 8</span>
+                </div>
+              )}
+
+              {/* Timer Bar */}
+              {timerActive && (
+                <div className={styles.timerBarWrap}>
+                  <div
+                    className={styles.timerBar}
+                    style={{ width: `${timerPercent}%`, background: timerColor }}
+                  />
+                </div>
+              )}
             </div>
-
-            {/* Progress Bar */}
-            {currentQuestion?.perguntaNumero && (
-              <div className={styles.progressWrap}>
-                <div className={styles.progressBar} style={{ width: `${progressPercent}%` }} />
-                <span className={styles.progressLabel}>Pergunta {currentQuestion.perguntaNumero} de 8</span>
-              </div>
-            )}
-
-            {/* Timer Bar */}
-            {timerActive && (
-              <div className={styles.timerBarWrap}>
-                <div
-                  className={styles.timerBar}
-                  style={{ width: `${timerPercent}%`, background: timerColor }}
-                />
-              </div>
-            )}
 
             {/* Messages */}
             <div className={styles.messagesArea}>
@@ -451,7 +460,7 @@ export default function DiagnosticoPage() {
                   <p>{currentQuestion.pergunta}</p>
 
                   {/* Research Card */}
-                  {currentQuestion.dadoPesquisa && (
+                  {currentQuestion.dadoPesquisa && currentQuestion.dadoPesquisa.estatistica && (
                     <div className={styles.researchCard}>
                       <span className={styles.researchIcon}>📊</span>
                       <div>

@@ -72,10 +72,11 @@ export async function POST(req) {
       const errorText = await response.text();
       console.error(`Gemini API error (${response.status}):`, errorText);
       return NextResponse.json(
-        { error: response.status === 429 
-            ? 'O serviço está temporariamente sobrecarregado. Tente novamente em alguns segundos.' 
-            : 'Erro ao processar o diagnóstico. Tente novamente.' 
-        }, 
+        {
+          error: response.status === 429
+            ? 'O serviço está temporariamente sobrecarregado. Tente novamente em alguns segundos.'
+            : 'Erro ao processar o diagnóstico. Tente novamente.'
+        },
         { status: response.status }
       );
     }
