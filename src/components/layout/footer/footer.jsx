@@ -1,8 +1,11 @@
+'use client'
 import "./footer.css"
 import logo from "../../../assets/images/home/logo.svg"
 import Image from "next/image"
+import { useModals } from "../../../context/ModalContext"
 
 export const Footer = () => {
+    const { openModal } = useModals();
     const currentYear = new Date().getFullYear();
 
     return (
@@ -42,13 +45,13 @@ export const Footer = () => {
                     <h4>Serviços</h4>
                     <ul className="footer-links">
                         <li><a href="/ia">Agentes de IA</a></li>
-                        <li><a href="/ia">Sites & LP's</a></li>
+                        <li><a href="/site">Sites & LP's</a></li>
                         <li><a href="/site">Criação de Interfaces</a></li>
                         <li><a href="/design">Identidade Visual</a></li>
-                        <li><a href="#">Estratégias de Mídia</a></li>
-                        <li><a href="#">Criação de Conteúdo</a></li>
-                        <li><a href="#">Pesquisa de Mercado</a></li>
-                        <li><a href="#">Catálogos Digitais</a></li>
+                        <li><a href="/design">Estratégias de Mídia</a></li>
+                        <li><a href="/design">Criação de Conteúdo</a></li>
+                        <li><a href="/design">Pesquisa de Mercado</a></li>
+                        <li><a href="/design">Catálogos Digitais</a></li>
                     </ul>
                 </div>
 
@@ -57,11 +60,14 @@ export const Footer = () => {
                     <p className="footer-tagline-cta" style={{ marginBottom: '10px' }}>
                         Pronto para colocar sua empresa no mapa digital?
                     </p>
-                    <a href="https://wa.me/5511950803544" className="footer-cta">
+                    <button 
+                        onClick={() => openModal('contact')} 
+                        className="footer-cta"
+                    >
                         Quero alavancar <br />meu negócio
-                    </a>
+                    </button>
                     <ul className="footer-links" style={{ marginTop: '10px' }}>
-                        <li><a href="mailto:contato@startmedia.com.br">contato@startmedia.com.br</a></li>
+                        <li><a href="mailto:contato@startmediadigital.com.br">contato@startmediadigital.com.br</a></li>
                     </ul>
                 </div>
             </div>

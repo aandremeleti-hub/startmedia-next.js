@@ -23,6 +23,7 @@
   color: var(--color-secondary-white);
   gap: clamp(8px, 2vw, 14px);
   transition: all 0.30s ease;
+  container-type: inline-size;
 }
 
 .content-card-ia-secondary:hover {
@@ -41,7 +42,7 @@
 
 .content-card-ia-secondary h1 {
   font-family: var(--font-title);
-  font-size: var(--font-headline-h4-size);
+  font-size: clamp(1.1rem, 9cqi, 1.5rem);
   color: var(--color-primary-green);
   text-shadow: 0 0 10px rgba(0, 255, 133, 0.3);
   padding: 0 12px;
@@ -51,8 +52,8 @@
 .content-card-ia-secondary p {
   text-align: center;
   width: 100%;
-  max-width: 190px;
-  font-size: var(--font-headline-body-size);
+  max-width: 80cqi;
+  font-size: clamp(0.75rem, 6cqi, 1.1rem);
   font-family: var(--font-body);
   line-height: 1.4;
   padding: 0 10px;

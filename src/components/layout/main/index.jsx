@@ -21,7 +21,7 @@ export const Main = () => {
                     <p>Estrutura digital simplificada que traz o cliente até você pronto para comprar</p>
                     <div className='box-button-main'>
                         <Image src={iconeBotaoSeta} alt="" />
-                        <button>Contato</button>
+                        <button onClick={() => openModal('contact')}>Contato</button>
                     </div>
                 </div>
                 <Image src={primaryImageMain} alt="" priority />

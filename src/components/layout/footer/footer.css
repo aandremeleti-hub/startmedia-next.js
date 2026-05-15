@@ -92,7 +92,11 @@
     font-size: var(--font-headline-h3-size);
 }
 
-.footer-cta {
+.footer-cta, 
+button.footer-cta {
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
     background: var(--grad-neon-solid);
     color: var(--color-secondary-black);
     padding: 16px 32px;

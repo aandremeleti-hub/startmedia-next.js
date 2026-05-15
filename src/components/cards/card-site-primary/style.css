@@ -83,3 +83,20 @@
   height: 8px;
   flex-shrink: 0;
 }
+
+@media (max-width: 390px) {
+  .card-site-items {
+    gap: 12px;
+    padding: 0 10px;
+    flex-wrap: nowrap;
+  }
+  .card-site-item {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .card-site-items {
+    flex-wrap: wrap;
+  }
+}

@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { ModalDesign } from '../components/modals/modalDesign';
 import { ModalSite } from '../components/modals/modalSite';
 import { ModalIa } from '../components/modals/modalIa';
+import { ModalContact } from '../components/modals/modalContact';
 
 const ModalContext = createContext();
 
@@ -11,7 +12,8 @@ export const ModalProvider = ({ children }) => {
     const [modals, setModals] = useState({
         design: false,
         site: false,
-        ia: false
+        ia: false,
+        contact: false
     });
 
     const openModal = (name) => {
@@ -38,6 +40,10 @@ export const ModalProvider = ({ children }) => {
             <ModalIa 
                 open={modals.ia} 
                 onClose={() => closeModal('ia')} 
+            />
+            <ModalContact 
+                open={modals.contact} 
+                onClose={() => closeModal('contact')} 
             />
         </ModalContext.Provider>
     );
