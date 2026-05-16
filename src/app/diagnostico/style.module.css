@@ -27,7 +27,7 @@
   padding: 3rem;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 0 20px rgba(0, 255, 133, 0.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 255, 133, 0.02);
   position: relative;
   overflow: hidden;
 }
@@ -772,29 +772,78 @@
   gap: 0.8rem;
 }
 
-.dayTabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-}
-
-.dayTab {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid transparent;
+/* Carrossel de Datas */
+.scheduleLabel {
+  font-size: 0.85rem;
   color: #aaa;
-  padding: 0.8rem 1.2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.dayTabActive {
-  background: rgba(0, 255, 133, 0.1);
-  color: #00FF85;
+.dateCarousel {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.dateCarousel::-webkit-scrollbar {
+  height: 4px;
+}
+
+.dateCarousel::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+
+.dateCard {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #aaa;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.dateCard:hover {
   border-color: rgba(0, 255, 133, 0.3);
+  color: #fff;
+  background: rgba(0, 255, 133, 0.05);
+}
+
+.dateCardActive {
+  background: rgba(0, 255, 133, 0.12);
+  color: #00FF85;
+  border-color: rgba(0, 255, 133, 0.5);
+}
+
+.dateCardWeekday {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.dateCardDay {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dateCardMonth {
+  font-size: 0.7rem;
+  text-transform: uppercase;
 }
 
 .timeGrid {
@@ -876,18 +925,7 @@
   line-height: 1.6;
 }
 
-.meetLink {
-  background: #00FF85;
-  color: #080808;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-top: 1rem;
-}
+
 
 .backHome {
   color: #aaa;

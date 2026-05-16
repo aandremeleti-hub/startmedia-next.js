@@ -4,29 +4,19 @@ import Modal from '@mui/material/Modal';
 import { Calendar, Phone, ArrowRight, CheckCircle, ExternalLink, X } from 'lucide-react';
 import Image from 'next/image';
 import logo from '../../../assets/images/home/logo.svg';
+import { WhatsAppIcon } from '../../icons/WhatsAppIcon';
 
-const WhatsAppIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51h-.57c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
-);
+import { SCHEDULE, JS_DAY_TO_SCHEDULE, getAvailableDates, getFilteredSchedule } from '@/lib/dateUtils';
 
-const SCHEDULE = {
-  'Segunda-feira': ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
-  'Terça-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Quarta-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Quinta-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Sexta-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Sábado': ['08:00', '09:00', '10:00', '11:00'],
-};
-const DAYS = Object.keys(SCHEDULE);
-const MEET_LINK = 'https://meet.google.com/new';
+const AVAILABLE_DATES = getAvailableDates();
+const SHORT_WEEKDAY = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const SHORT_MONTH = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
 export const ModalContact = ({ open, onClose }) => {
   const [step, setStep] = useState('lead'); // 'lead' | 'choice' | 'schedule' | 'success'
   const [lead, setLead] = useState({ nome: '', email: '', whatsapp: '' });
   const [ctaType, setCtaType] = useState(null);
-  const [selectedDay, setSelectedDay] = useState(DAYS[0]);
+  const [selectedDate, setSelectedDate] = useState(AVAILABLE_DATES[0]);
   const [selectedTime, setSelectedTime] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [showRetention, setShowRetention] = useState(false);
@@ -94,8 +84,7 @@ export const ModalContact = ({ open, onClose }) => {
           historico: [{ role: 'system', content: 'Contato direto via botão principal da Home' }],
           diagnosticoFinal: { pergunta: 'Contato direto sem diagnóstico' },
           ctaEscolhido: type,
-          dataReuniao: dateTimeStr,
-          linkMeet: type === 'reuniao' ? MEET_LINK : null
+          dataReuniao: dateTimeStr
         })
       });
     } catch (error) {
@@ -107,8 +96,13 @@ export const ModalContact = ({ open, onClose }) => {
   };
 
   const handleScheduleConfirm = () => {
-    if (!selectedTime) return;
-    submitContact('reuniao', { dateTime: `${selectedDay} às ${selectedTime}` });
+    if (!selectedTime || !selectedDate) return;
+    const day = selectedDate.getDate().toString().padStart(2, '0');
+    const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = selectedDate.getFullYear();
+    const weekdayName = JS_DAY_TO_SCHEDULE[selectedDate.getDay()];
+    const dateTimeStr = `${day}/${month}/${year} (${weekdayName}) às ${selectedTime}`;
+    submitContact('reuniao', { dateTime: dateTimeStr });
   };
 
   return (
@@ -133,7 +127,7 @@ export const ModalContact = ({ open, onClose }) => {
         <div className="modal-contact-content">
           <div className="modal-contact-header">
             <Image src={logo} alt="StartMedia" width={120} height={35} className="modal-contact-logo" />
-            <p>Informações de contato</p>
+            <p>Informações para contato</p>
           </div>
 
           {showRetention ? (
@@ -212,19 +206,24 @@ export const ModalContact = ({ open, onClose }) => {
           {step === 'schedule' && (
             <div className="modal-schedule-picker">
               <h3 className="schedule-title"><Calendar size={18} /> Horários Disponíveis</h3>
-              <div className="modal-day-tabs">
-                {DAYS.map(d => (
-                  <button 
-                    key={d} 
-                    onClick={() => { setSelectedDay(d); setSelectedTime(null); }}
-                    className={`modal-day-tab ${selectedDay === d ? 'active' : ''}`}
-                  >
-                    {d.slice(0, 3)}
-                  </button>
-                ))}
+              <div className="modal-date-carousel">
+                {AVAILABLE_DATES.map((date, idx) => {
+                  const isSelected = selectedDate.toDateString() === date.toDateString();
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => { setSelectedDate(date); setSelectedTime(null); }}
+                      className={`modal-date-card ${isSelected ? 'active' : ''}`}
+                    >
+                      <span className="modal-date-day-name">{SHORT_WEEKDAY[date.getDay()]}</span>
+                      <span className="modal-date-day-number">{date.getDate()}</span>
+                      <span className="modal-date-month">{SHORT_MONTH[date.getMonth()]}</span>
+                    </button>
+                  );
+                })}
               </div>
               <div className="modal-time-grid">
-                {SCHEDULE[selectedDay].map(t => (
+                {getFilteredSchedule(selectedDate).map(t => (
                   <button 
                     key={t} 
                     onClick={() => setSelectedTime(t)}
@@ -236,7 +235,9 @@ export const ModalContact = ({ open, onClose }) => {
               </div>
               {selectedTime && (
                 <div className="modal-schedule-confirm">
-                  <p><CheckCircle size={16} /> {selectedDay} às {selectedTime}</p>
+                  <p>
+                    <CheckCircle size={16} /> {selectedDate.getDate().toString().padStart(2, '0')}/{(selectedDate.getMonth() + 1).toString().padStart(2, '0')} às {selectedTime}
+                  </p>
                   <button onClick={handleScheduleConfirm} className="contact-primary-btn" disabled={submitting}>
                     {submitting ? 'Confirmando...' : 'Confirmar Reunião'}
                   </button>
@@ -252,10 +253,7 @@ export const ModalContact = ({ open, onClose }) => {
               {ctaType === 'reuniao' ? (
                 <>
                   <h3>Reunião Confirmada! 🚀</h3>
-                  <p>Enviamos os detalhes para <strong>{lead.email}</strong>. Prepare-se para transformar o seu negócio.</p>
-                  <a href={MEET_LINK} target="_blank" rel="noopener noreferrer" className="modal-meet-link">
-                    <ExternalLink size={18} /> Abrir Google Meet
-                  </a>
+                  <p>Enviamos os detalhes para <strong>{lead.email}</strong>. Nosso especialista entrará em contato com o link da reunião em breve.</p>
                 </>
               ) : (
                 <>

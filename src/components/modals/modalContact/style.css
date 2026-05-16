@@ -187,29 +187,66 @@
   font-size: 1.1rem;
 }
 
-.modal-day-tabs {
+/* DATE CAROUSEL */
+.modal-date-carousel {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.8rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem 0.2rem 1.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
 }
 
-.modal-day-tab {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid transparent;
-  color: #888;
-  padding: 0.7rem 1.1rem;
-  border-radius: 8px;
+.modal-date-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-date-card {
+  flex: 0 0 75px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
   cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  transition: all 0.3s ease;
+  color: #888;
 }
 
-.modal-day-tab.active {
-  background: rgba(0, 255, 133, 0.12);
+.modal-date-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.modal-date-card.active {
+  background: rgba(0, 255, 133, 0.1);
+  border-color: #00FF85;
   color: #00FF85;
-  border-color: rgba(0, 255, 133, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 255, 133, 0.15);
+}
+
+.modal-date-day-name {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.modal-date-day-number {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.modal-date-month {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.7;
 }
 
 .modal-time-grid {

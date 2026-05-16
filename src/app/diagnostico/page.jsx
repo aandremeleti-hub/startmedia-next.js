@@ -7,17 +7,13 @@ import logo from '../../assets/images/home/logo.svg';
 import Image from 'next/image';
 import { checkExistingLead } from '@/lib/supabase';
 
-// Horários fixos disponíveis
-const SCHEDULE = {
-  'Segunda-feira': ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
-  'Terça-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Quarta-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Quinta-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Sexta-feira': ['08:00', '09:00', '10:00', '11:00'],
-  'Sábado': ['08:00', '09:00', '10:00', '11:00'],
-};
-const DAYS = Object.keys(SCHEDULE);
-const MEET_LINK = 'https://meet.google.com/new';
+import { SCHEDULE, JS_DAY_TO_SCHEDULE, getAvailableDates, getFilteredSchedule } from '@/lib/dateUtils';
+
+const AVAILABLE_DATES = getAvailableDates();
+
+// Nomes abreviados dos dias da semana para exibição no carrossel
+const SHORT_WEEKDAY = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const SHORT_MONTH = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
 // Timer: 120s primeira pergunta, 60s texto, 30s chips
 const FIRST_TEXT_TIMEOUT = 120;
@@ -55,7 +51,7 @@ export default function DiagnosticoPage() {
   // Resultado CTAs
   const [ctaStep, setCtaStep] = useState('choice'); // 'choice' | 'schedule' | 'success'
   const [ctaType, setCtaType] = useState(null);
-  const [selectedDay, setSelectedDay] = useState(DAYS[0]);
+  const [selectedDate, setSelectedDate] = useState(AVAILABLE_DATES[0]); // Date object
   const [selectedTime, setSelectedTime] = useState(null);
   const [submittingCta, setSubmittingCta] = useState(false);
 
@@ -84,10 +80,10 @@ export default function DiagnosticoPage() {
           timerRef.current = null;
           setShowTimeoutModal(true);
           setCountdownSeconds(10);
-          
+
           // Limpa qualquer intervalo anterior antes de iniciar o novo
           if (countdownRef.current) clearInterval(countdownRef.current);
-          
+
           countdownRef.current = setInterval(() => {
             setCountdownSeconds(p => {
               if (p <= 1) {
@@ -196,7 +192,7 @@ export default function DiagnosticoPage() {
   };
 
   // ── Quiz Logic ────────────────────────────────────────────────────────────────
-  const fetchNextQuestion = async (userAnswer = '') => {
+  const fetchNextQuestion = async (userAnswer = '', currentHistory = history) => {
     clearAllTimers();
     setTimerActive(false);
     setLoading(true);
@@ -205,9 +201,9 @@ export default function DiagnosticoPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          history, // Enviamos o histórico estável (sem a resposta atual do usuário)
+          history: currentHistory, // Envia o histórico atualizado real, sem depender do estado assíncrono do React
           userMessage: userAnswer
-            ? userAnswer // Enviamos a resposta atual de forma limpa
+            ? userAnswer
             : 'Inicie o diagnóstico com a mensagem de abertura e a primeira pergunta.'
         })
       });
@@ -217,7 +213,6 @@ export default function DiagnosticoPage() {
       if (!response.ok) {
         const errorMsg = data?.error || 'Erro ao conectar com o diagnóstico.';
         console.error('API Error:', response.status, errorMsg);
-        // Mostra a mensagem de erro pro lead ao invés de falhar silenciosamente
         setCurrentQuestion({
           pergunta: `⚠️ ${errorMsg} Por favor, tente novamente em alguns segundos.`,
           tipo: 'texto',
@@ -251,7 +246,13 @@ export default function DiagnosticoPage() {
     const answer = inputValue.trim();
     if (!answer) return;
 
-    // Atualiza a interface imediatamente para o usuário
+    // Constrói o histórico da API: inclui a pergunta atual que está sendo respondida
+    const apiHistory = [
+      ...history,
+      { role: 'assistant', content: currentQuestion.pergunta }
+    ];
+
+    // Atualiza a interface (aqui incluímos a resposta do usuário para aparecer no balão)
     setHistory(prev => [
       ...prev,
       { role: 'assistant', content: currentQuestion.pergunta },
@@ -262,11 +263,16 @@ export default function DiagnosticoPage() {
     setInputValue('');
     setShowOther(false);
     setOtherInput('');
-    await fetchNextQuestion(answer);
+    await fetchNextQuestion(answer, apiHistory);
   };
 
   const handleChipSelect = async (opcao) => {
     if (opcao === 'Outro') { setShowOther(true); return; }
+
+    const apiHistory = [
+      ...history,
+      { role: 'assistant', content: currentQuestion.pergunta }
+    ];
 
     setHistory(prev => [
       ...prev,
@@ -276,13 +282,18 @@ export default function DiagnosticoPage() {
 
     setCurrentQuestion(null);
     setShowOther(false);
-    await fetchNextQuestion(opcao);
+    await fetchNextQuestion(opcao, apiHistory);
   };
 
   const handleOtherSubmit = async (e) => {
     e?.preventDefault();
     const answer = otherInput.trim();
     if (!answer) return;
+
+    const apiHistory = [
+      ...history,
+      { role: 'assistant', content: currentQuestion.pergunta }
+    ];
 
     setHistory(prev => [
       ...prev,
@@ -293,7 +304,7 @@ export default function DiagnosticoPage() {
     setCurrentQuestion(null);
     setShowOther(false);
     setOtherInput('');
-    await fetchNextQuestion(answer);
+    await fetchNextQuestion(answer, apiHistory);
   };
 
   // ── CTA Logic ─────────────────────────────────────────────────────────────────
@@ -318,8 +329,7 @@ export default function DiagnosticoPage() {
           historico: history,
           diagnosticoFinal: finalResult,
           ctaEscolhido: ctaFinal,
-          dataReuniao: dateTimeStr,
-          linkMeet: ctaFinal === 'reuniao' ? MEET_LINK : null
+          dataReuniao: dateTimeStr
         })
       });
     } catch (error) {
@@ -332,8 +342,13 @@ export default function DiagnosticoPage() {
   };
 
   const handleScheduleConfirm = () => {
-    if (!selectedTime) return;
-    handleCtaSubmit('reuniao', { dateTime: `${selectedDay} às ${selectedTime}` });
+    if (!selectedTime || !selectedDate) return;
+    const day = selectedDate.getDate().toString().padStart(2, '0');
+    const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = selectedDate.getFullYear();
+    const weekdayName = JS_DAY_TO_SCHEDULE[selectedDate.getDay()];
+    const dateTimeStr = `${day}/${month}/${year} (${weekdayName}) às ${selectedTime}`;
+    handleCtaSubmit('reuniao', { dateTime: dateTimeStr });
   };
 
   // ── Progress ──────────────────────────────────────────────────────────────────
@@ -646,30 +661,53 @@ export default function DiagnosticoPage() {
               </div>
             )}
 
-            {/* Schedule Picker */}
+            {/* Schedule Picker — Calendário Real */}
             {ctaStep === 'schedule' && (
               <div className={styles.schedulePicker}>
-                <h3 className={styles.scheduleTitle}><Calendar size={18} /> Escolha um horário disponível</h3>
-                <div className={styles.dayTabs}>
-                  {DAYS.map(d => (
-                    <button key={d} onClick={() => { setSelectedDay(d); setSelectedTime(null); }}
-                      className={`${styles.dayTab} ${selectedDay === d ? styles.dayTabActive : ''}`}>
-                      {d.slice(0, 3)}
-                    </button>
-                  ))}
+                <h3 className={styles.scheduleTitle}><Calendar size={18} /> Escolha uma data e horário</h3>
+
+                {/* Carrossel de datas */}
+                <p className={styles.scheduleLabel}>Selecione o dia:</p>
+                <div className={styles.dateCarousel}>
+                  {AVAILABLE_DATES.map((date, i) => {
+                    const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => { setSelectedDate(date); setSelectedTime(null); }}
+                        className={`${styles.dateCard} ${isSelected ? styles.dateCardActive : ''}`}
+                      >
+                        <span className={styles.dateCardWeekday}>{SHORT_WEEKDAY[date.getDay()]}</span>
+                        <span className={styles.dateCardDay}>{date.getDate()}</span>
+                        <span className={styles.dateCardMonth}>{SHORT_MONTH[date.getMonth()]}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-                <div className={styles.timeGrid}>
-                  {SCHEDULE[selectedDay].map(t => (
-                    <button key={t} onClick={() => setSelectedTime(t)}
-                      className={`${styles.timeSlot} ${selectedTime === t ? styles.timeSlotSelected : ''}`}>
-                      {t}
-                    </button>
-                  ))}
-                </div>
-                {selectedTime && (
+
+                {/* Horários disponíveis para o dia selecionado */}
+                {selectedDate && JS_DAY_TO_SCHEDULE[selectedDate.getDay()] && (
+                  <>
+                    <p className={styles.scheduleLabel}>Horários disponíveis ({JS_DAY_TO_SCHEDULE[selectedDate.getDay()]}):</p>
+                    <div className={styles.timeGrid}>
+                      {getFilteredSchedule(selectedDate).map(t => (
+                        <button 
+                          key={t} 
+                          onClick={() => setSelectedTime(t)}
+                          className={`${styles.timeSlot} ${selectedTime === t ? styles.timeSlotSelected : ''}`}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {selectedTime && selectedDate && (
                   <div className={styles.scheduleConfirm}>
                     <p className={styles.scheduleSelected}>
-                      <CheckCircle size={16} /> {selectedDay} às {selectedTime}
+                      <CheckCircle size={16} />
+                      {selectedDate.getDate().toString().padStart(2,'0')}/{(selectedDate.getMonth()+1).toString().padStart(2,'0')}/{selectedDate.getFullYear()} às {selectedTime}
                     </p>
                     <button onClick={handleScheduleConfirm} className={styles.ctaPrimary} disabled={submittingCta}>
                       {submittingCta ? 'Confirmando...' : 'Confirmar Reunião'} <ArrowRight size={18} />
@@ -687,10 +725,7 @@ export default function DiagnosticoPage() {
                 {ctaType === 'reuniao' ? (
                   <>
                     <h3>Este é o primeiro passo para o sucesso do seu negócio! 🚀</h3>
-                    <p>Sua reunião foi confirmada. Enviamos os detalhes para <strong>{lead.email}</strong>.</p>
-                    <a href={MEET_LINK} target="_blank" rel="noopener noreferrer" className={styles.meetLink}>
-                      <ExternalLink size={16} /> Acessar Google Meet
-                    </a>
+                    <p>Sua reunião foi confirmada. Enviamos os detalhes para <strong>{lead.email}</strong>. Nosso especialista entrará em contato com o link da reunião em breve.</p>
                   </>
                 ) : ctaType === 'telefone' ? (
                   <>

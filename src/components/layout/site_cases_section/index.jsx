@@ -16,14 +16,14 @@ export const SiteCasesSection = () => {
             <div className='container_secondary_cards_site'>
                 <CardSiteSecondary
                     imagem={forbes_logo}
-                    titulo="MachineLearningProject"
+                    titulo="https://forbes.com.br/"
                     icone_seta={icone_botao_seta}
                     texto="Só 5% dos empreendedores têm presença digital coesa. Os outros 95% mantêm perfis fragmentados que prejudicam, em vez de ajudar, o negócio."
                     />
 
                 <CardSiteSecondary
                     imagem={sebrae}
-                    titulo="MachineLearningProject"
+                    titulo="https://sebrae.com.br/"
                     icone_seta={icone_botao_seta}
                     texto="76% dos pequenos negócios têm computador, 98% têm internet, mas só 52% têm site. 2/3 ainda operam em baixa maturidade digital."
                     />
@@ -32,14 +32,14 @@ export const SiteCasesSection = () => {
             <div className='container_secondary_cards_site'>
                 <CardSiteSecondary
                     imagem={hostinger}
-                    titulo="MachineLearningProject"
+                    titulo="https://www.hostinger.com/br"
                     icone_seta={icone_botao_seta}
                     texto="79% das empresas melhoraram vendas com chat em tempo real. Mais de 90% dos empresários consideram o site a ferramenta de marketing digital mais eficaz."
                     />
 
                 <CardSiteSecondary
                     imagem={frd_logo}
-                    titulo="MachineLearningProject"
+                    titulo="https://frdstudio.com/"
                     icone_seta={icone_botao_seta}
                     texto="80% dos consumidores pesquisam online antes de comprar. Mas apenas 30% dos pequenos empresários se consideram maduros digitalmente."
                     />

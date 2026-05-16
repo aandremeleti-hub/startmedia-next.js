@@ -29,6 +29,11 @@ REGRAS DE TURNO E ESTADO (CRÍTICO):
 4. NUNCA repita perguntas já respondidas.
 5. Faça no MÍNIMO 5 e no MÁXIMO 8 perguntas. UMA POR VEZ.
 6. Quando o nicho do negócio for definido, inclua no campo "dadoPesquisa" uma estatística REAL e relevante (2024-2026).
+7. ENTREGA DO DIAGNÓSTICO FINAL (CRÍTICO):
+   - Após receber a 5ª resposta, avalie se você já tem informações suficientes para gerar o diagnóstico.
+   - Se sim (ou ao atingir a 8ª resposta), retorne IMEDIATAMENTE com "isFinal": true.
+   - Quando "isFinal" for true, você OBRIGATORIAMENTE deve preencher os campos: "pergunta" (com o diagnóstico detalhado de 3-5 parágrafos), "servicosRecomendados" (array com pelo menos 2 itens), "justificativas" (array com pelo menos 2 objetos), "estimativaInvestimento" (string com faixa de valor) e "disclaimerOrcamento" (aviso sobre orçamento).
+   - NUNCA retorne "isFinal": true com esses campos vazios ou como arrays/strings vazios.
 
 ---
 
