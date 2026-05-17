@@ -39,7 +39,7 @@ export async function POST(req) {
 
     // 2. Envio de e-mails
     if (process.env.RESEND_API_KEY) {
-      console.log('[Resend] Preparando envio de e-mails. CTA:', ctaEscolhido);
+      console.log('[Resend] Preparando envio do e-mail de diagnóstico. CTA:', ctaEscolhido);
       
       const ctaLabel = {
         reuniao: '📅 REUNIÃO AGENDADA',
@@ -48,73 +48,106 @@ export async function POST(req) {
         nenhum: '📋 NOVO LEAD DIAGNOSTICADO'
       }[ctaEscolhido] || '📋 NOVO LEAD DIAGNOSTICADO';
 
-      const servicosHtml = diagnosticoFinal?.servicosRecomendados
-        ?.map(s => `<li style="margin-bottom:8px;">${s}</li>`)
-        .join('') || '<li>Não disponível (Contato Direto)</li>';
-
       const justificativasHtml = diagnosticoFinal?.justificativas
         ?.map(j => `
-          <div style="background:#1a1a1a;border-left:3px solid #00FF85;padding:12px 16px;margin-bottom:12px;border-radius:6px;">
-            <strong style="color:#00FF85;">${j.servico}</strong>
-            <p style="color:#f0f0f0;margin:6px 0;">${j.razao}</p>
+          <div style="background:#121212;border-left:4px solid #00FF85;padding:16px;margin-bottom:16px;border-radius:6px;border:1px solid #1a1a1a;">
+            <strong style="color:#00FF85;font-size:16px;display:block;margin-bottom:6px;">${j.servico}</strong>
+            <p style="color:#e0e0e0;margin:0 0 10px 0;line-height:1.5;font-size:14px;">${j.razao}</p>
+            ${j.estatistica ? `
+              <div style="background:#0a0a0a;padding:10px 14px;border-radius:4px;border:1px solid #1a1a1a;margin-top:8px;">
+                <span style="color:#888;font-size:12px;display:block;margin-bottom:2px;">Estatística / Justificativa de Mercado:</span>
+                <span style="color:#00FF85;font-size:13px;font-style:italic;line-height:1.4;">"${j.estatistica}"</span>
+                ${j.fonte ? `<span style="color:#666;font-size:11px;display:block;margin-top:4px;">Fonte: ${j.fonte}</span>` : ''}
+              </div>
+            ` : ''}
           </div>
-        `).join('') || '<p style="color:#666;">Sem justificativas (Contato Direto)</p>';
+        `).join('') || '<p style="color:#666;font-style:italic;">Nenhum serviço mapeado (Contato Direto)</p>';
 
       const reuniaoInfo = ctaEscolhido === 'reuniao' && dataReuniao
-        ? `<div style="background:#003D20;padding:16px;border-radius:8px;margin:16px 0;text-align:center;">
-            <strong style="color:#00FF85;font-size:18px;">📅 Reunião: ${dataReuniao}</strong>
+        ? `<div style="background:#002915;padding:18px;border-radius:8px;margin:20px 0;text-align:center;border:1px solid #005c30;">
+            <strong style="color:#00FF85;font-size:18px;display:block;">📅 Consultoria Agendada com Sucesso</strong>
+            <span style="color:#f0f0f0;font-size:16px;display:block;margin-top:6px;">${dataReuniao}</span>
            </div>`
         : '';
 
-      // ── E-mail interno para a StartMedia (SEMPRE ENVIADO) ────────────────────
+      // ── E-mail Completo de Diagnóstico para Reenvio Manual ────────────────────
       const emailHtml = `
-        <div style="font-family:Arial,sans-serif;background:#080808;padding:32px;color:#f0f0f0;max-width:600px;margin:0 auto;border-radius:12px;">
+        <div style="font-family:Arial,sans-serif;background:#080808;padding:32px;color:#f0f0f0;max-width:650px;margin:0 auto;border-radius:12px;border:1px solid #1a1a1a;">
+          
+          <!-- Cabeçalho -->
+          <div style="text-align:center;margin-bottom:24px;border-bottom:1px solid #1a1a1a;padding-bottom:20px;">
+            <h1 style="color:#00FF85;margin:0;font-size:24px;letter-spacing:1px;">STARTMEDIA DIGITAL</h1>
+            <p style="color:#888;margin:6px 0 0 0;font-size:12px;">RELATÓRIO DE NOVO LEAD E DIAGNÓSTICO DIGITAL</p>
+          </div>
+
+          <!-- Status do Lead / CTA -->
           <div style="text-align:center;margin-bottom:24px;">
-            <span style="background:#00FF85;color:#080808;padding:6px 16px;border-radius:20px;font-weight:bold;font-size:14px;">${ctaLabel}</span>
+            <span style="background:#00FF85;color:#080808;padding:8px 20px;border-radius:30px;font-weight:bold;font-size:13px;display:inline-block;text-transform:uppercase;">
+              ${ctaLabel}
+            </span>
           </div>
-          <h2 style="color:#00FF85;border-bottom:1px solid #2C2C2C;padding-bottom:12px;">Novo Lead — STARTMEDIA DIGITAL</h2>
-          <table style="width:100%;border-collapse:collapse;margin:16px 0;">
-            <tr><td style="padding:8px;color:#aaa;">Nome</td><td style="padding:8px;color:#f0f0f0;font-weight:bold;">${nome}</td></tr>
-            <tr style="background:#1a1a1a;"><td style="padding:8px;color:#aaa;">E-mail</td><td style="padding:8px;color:#f0f0f0;">${email}</td></tr>
-            <tr><td style="padding:8px;color:#aaa;">WhatsApp</td><td style="padding:8px;color:#f0f0f0;">${whatsapp}</td></tr>
+
+          <!-- Tabela de Contatos -->
+          <h3 style="color:#00FF85;margin-bottom:12px;font-size:16px;border-bottom:1px solid #2c2c2c;padding-bottom:6px;">👤 Dados de Contato do Lead</h3>
+          <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+            <tr style="border-bottom:1px solid #1a1a1a;"><td style="padding:10px 0;color:#aaa;width:120px;font-size:14px;">Nome</td><td style="padding:10px 0;color:#f0f0f0;font-weight:bold;font-size:14px;">${nome}</td></tr>
+            <tr style="border-bottom:1px solid #1a1a1a;"><td style="padding:10px 0;color:#aaa;font-size:14px;">E-mail</td><td style="padding:10px 0;color:#00FF85;font-size:14px;"><a href="mailto:${email}" style="color:#00FF85;text-decoration:none;">${email}</a></td></tr>
+            <tr style="border-bottom:1px solid #1a1a1a;"><td style="padding:10px 0;color:#aaa;font-size:14px;">WhatsApp</td><td style="padding:10px 0;color:#f0f0f0;font-size:14px;">${whatsapp}</td></tr>
           </table>
+
           ${reuniaoInfo}
-          <h3 style="color:#00FF85;margin-top:24px;">📋 Diagnóstico/Origem:</h3>
-          <p style="color:#d0d0d0;line-height:1.6;background:#1a1a1a;padding:16px;border-radius:8px;">${diagnosticoFinal?.pergunta || 'Contato direto sem diagnóstico'}</p>
-          <div style="text-align:center;margin-top:32px;padding-top:16px;border-top:1px solid #2C2C2C;">
-            <p style="color:#666;font-size:12px;">STARTMEDIA DIGITAL — Notificação Automática</p>
+
+          <!-- Diagnóstico IA -->
+          <h3 style="color:#00FF85;margin-top:28px;margin-bottom:12px;font-size:16px;border-bottom:1px solid #2c2c2c;padding-bottom:6px;">📋 1. Análise Geral de Maturidade Digital</h3>
+          <div style="color:#e0e0e0;line-height:1.6;background:#121212;padding:18px;border-radius:8px;border:1px solid #1a1a1a;margin-bottom:24px;font-size:14px;">
+            ${diagnosticoFinal?.pergunta || 'Contato direto sem diagnóstico gerado no chat.'}
           </div>
+
+          <!-- Serviços Recomendados -->
+          <h3 style="color:#00FF85;margin-top:28px;margin-bottom:12px;font-size:16px;border-bottom:1px solid #2c2c2c;padding-bottom:6px;">🛠️ 2. Serviços Recomendados & Justificativas</h3>
+          <div style="margin-bottom:24px;">
+            ${justificativasHtml}
+          </div>
+
+          <!-- Faixa de Investimento -->
+          <h3 style="color:#00FF85;margin-top:28px;margin-bottom:12px;font-size:16px;border-bottom:1px solid #2c2c2c;padding-bottom:6px;">💰 3. Estimativa de Investimento Sugerida</h3>
+          <div style="background:#121212;padding:18px;border-radius:8px;border:1px solid #1a1a1a;margin-bottom:24px;">
+            <div style="font-size:20px;font-weight:bold;color:#00FF85;margin-bottom:8px;">
+              ${diagnosticoFinal?.estimativaInvestimento || 'A definir sob consulta'}
+            </div>
+            <p style="color:#888;font-size:12px;margin:0;line-height:1.5;">
+              <em>${diagnosticoFinal?.disclaimerOrcamento || 'Nota: Os valores são estimativas e podem variar conforme o escopo final.'}</em>
+            </p>
+          </div>
+
+          <!-- Rodapé de encaminhamento comercial -->
+          <div style="margin-top:36px;padding-top:20px;border-top:1px solid #1a1a1a;text-align:center;background:#121212;padding:16px;border-radius:8px;border:1px solid #1a1a1a;">
+            <p style="color:#aaa;font-size:13px;margin:0 0 8px 0;font-weight:bold;">💡 Como reenviar ao cliente?</p>
+            <p style="color:#888;font-size:12px;margin:0;line-height:1.5;">
+              Basta clicar em <strong>"Encaminhar"</strong> no seu leitor de e-mail, apagar este rodapé e a tabela de dados de contato acima, e enviar o restante do corpo do e-mail diretamente para <strong style="color:#00FF85;">${email}</strong>!
+            </p>
+          </div>
+
         </div>
       `;
 
-      tarefas.push(resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
-        to: ['contato@startmediadigital.com.br'],
-        subject: `${ctaLabel} — ${nome}`,
-        html: emailHtml
-      }).then(r => console.log('[Resend] E-mail interno enviado:', r)).catch(e => console.error('[Resend Error Interno]', e)));
+      // ── DIRECIONAMENTO DO E-MAIL DE ALERTA ──────────────────────────────────
+      // Como a nova conta do Resend foi criada diretamente sob o e-mail 'contato@startmediadigital.com.br',
+      // ele é o proprietário verificado padrão. Enviamos direto para ele sem nenhuma restrição de Sandbox!
+      const targetEmails = ['contato@startmediadigital.com.br'];
 
-      // ── E-mail de confirmação para o lead (APENAS SE NÃO FOR WHATSAPP) ────────
-      if (ctaEscolhido !== 'whatsapp') {
-        const emailLeadHtml = `
-          <div style="font-family:Arial,sans-serif;background:#080808;padding:32px;color:#f0f0f0;max-width:600px;margin:0 auto;border-radius:12px;">
-            <h1 style="color:#00FF85;text-align:center;">STARTMEDIA DIGITAL</h1>
-            <h2 style="color:#f0f0f0;">Olá, ${nome}! 👋</h2>
-            ${ctaEscolhido === 'reuniao'
-              ? `<p>Sua reunião foi confirmada para <strong style="color:#00FF85;">${dataReuniao}</strong>.</p>`
-              : `<p>Recebemos sua solicitação! Nossa equipe entrará em contato por telefone em até 24h.</p>`
-            }
-            <p style="color:#aaa;font-size:12px;text-align:center;margin-top:32px;">© STARTMEDIA DIGITAL</p>
-          </div>
-        `;
+      console.log('[Resend] Enviando relatório de diagnóstico direto para contato@startmediadigital.com.br.');
 
-        tarefas.push(resend.emails.send({
+      tarefas.push(
+        resend.emails.send({
           from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
-          to: [email],
-          subject: '✅ Recebemos sua solicitação — STARTMEDIA DIGITAL',
-          html: emailLeadHtml
-        }).then(r => console.log('[Resend] E-mail lead enviado:', r)).catch(e => console.error('[Resend Error Lead]', e)));
-      }
+          to: targetEmails,
+          subject: `${ctaLabel} — ${nome} (Diagnóstico Completo)`,
+          html: emailHtml
+        })
+        .then(r => console.log('[Resend] Relatório de diagnóstico enviado:', r))
+        .catch(e => console.error('[Resend Error Relatório]', e))
+      );
     }
 
     await Promise.all(tarefas);
