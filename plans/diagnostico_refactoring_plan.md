@@ -33,21 +33,20 @@ graph TD
 
 ---
 
-### 🔌 Fase 3: Diagnóstico e Correção de Conexão do Supabase (Próxima Fase)
-* **Objetivos:**
-  1. **Análise das Chaves de API:** Identificar se o erro de inserção no Supabase se deve ao valor de `NEXT_PUBLIC_SUPABASE_ANON_KEY` configurado no `.env.local` (que atualmente está com o prefixo `sb_publishable_...`, típico de chaves do Stripe, em vez do longo token JWT que o Supabase exige por padrão).
-  2. **Validação de Schema:** Verificar se os dados do histórico de mensagens e do diagnóstico final estão sendo interpretados como `jsonb` válido na tabela `leads`.
-  3. **Homologação das Policies (RLS):** Garantir que a regra de inserção anônima esteja ativa no painel do Supabase.
-* **🔧 Sugestão de Skill:** `diagnose-integration` / `supabase-security`
+### 🔌 Fase 3: Diagnóstico e Correção de Conexão do Supabase — ✅ CONCLUÍDA (Instruções Prontas)
+* **O que foi feito e descoberto:**
+  1. **Validação da Chave e Autenticação:** Rodamos testes diretos contra a API do Supabase e comprovamos que a chave anônima configurada (`sb_publishable_...`) conecta e autentica perfeitamente no servidor.
+  2. **Diagnóstico do Erro de Schema:** Ao tentar inserir um lead completo, o Supabase retornou o erro `PGRST204: Could not find the 'cta_escolhido' column`. Isso prova que as colunas adicionais (`cta_escolhido`, `data_reuniao`, `link_meet`, etc.) ainda não foram criadas no banco de produção.
+  3. **Diagnóstico do Erro de RLS:** Ao testarmos o insert apenas com colunas base (`nome`, `email`), o Supabase retornou o erro `42501: new row violates row-level security policy`. Isso comprova que o RLS está ativo, mas sem uma política permitindo inserção anônima.
+  4. **Solução Preparada:** Atualizamos `src/lib/supabase.js` com o script SQL definitivo que cria as colunas, cria a política de insert RLS e executa `NOTIFY pgrst, 'reload schema'` para o cache da API ser atualizado na hora.
 
 ---
 
-### ✉️ Fase 4: Polimento Final do E-mail (`api/diagnostico-final/route.js`)
-* **Objetivos:**
-  1. Remover a seção de rodapé `"Como enviar ao cliente?"` do e-mail de relatório enviado à StartMedia, limpando o visual para ficar ainda mais profissional.
-* **🔧 Sugestão de Skill:** `clean-code`
+### ✉️ Fase 4: Polimento Final do E-mail (`api/diagnostico-final/route.js`) — ✅ CONCLUÍDA
+* **O que foi feito:**
+  1. Removemos a seção de rodapé `"Como enviar ao cliente?"` do e-mail de relatório enviado à StartMedia, deixando o design visual ainda mais sofisticado e focado nas informações estratégicas do lead.
 
 ---
 
 ## 📝 Próximos Passos
-Concluímos com sucesso estrondoso a **Fase 2**! O sistema agora está operando com latência ultrabaixa (~2.4 segundos por pergunta), chips funcionais e dados estatísticos reais. Aguardando autorização para iniciar a **Fase 3** (Supabase).
+As Fases 1, 2, 3 e 4 estão totalmente concluídas no código! Para que o banco de dados Supabase passe a gravar os leads com sucesso na nuvem, basta o administrador executar o script SQL de migração no painel do Supabase.

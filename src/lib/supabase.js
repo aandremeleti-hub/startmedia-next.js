@@ -63,9 +63,12 @@ CREATE TABLE IF NOT EXISTS leads (
 -- Habilitar Row Level Security (RLS)
 ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
 
--- Policy para inserção (o servidor pode inserir)
+-- Policy para inserção (permite que a API e o frontend possam gravar novos leads)
 CREATE POLICY "Allow insert" ON leads FOR INSERT WITH CHECK (true);
 
--- Policy para leitura apenas com service_role (protegido)
+-- Policy para leitura protegida (bloqueia leitura pública)
 CREATE POLICY "Allow select for service role" ON leads FOR SELECT USING (false);
+
+-- Atualiza o cache de schema da API do PostgREST imediatamente
+NOTIFY pgrst, 'reload schema';
 */

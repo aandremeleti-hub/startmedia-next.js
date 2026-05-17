@@ -120,14 +120,6 @@ export async function POST(req) {
             </p>
           </div>
 
-          <!-- Rodapé de encaminhamento comercial -->
-          <div style="margin-top:36px;padding-top:20px;border-top:1px solid #1a1a1a;text-align:center;background:#121212;padding:16px;border-radius:8px;border:1px solid #1a1a1a;">
-            <p style="color:#aaa;font-size:13px;margin:0 0 8px 0;font-weight:bold;">💡 Como reenviar ao cliente?</p>
-            <p style="color:#888;font-size:12px;margin:0;line-height:1.5;">
-              Basta clicar em <strong>"Encaminhar"</strong> no seu leitor de e-mail, apagar este rodapé e a tabela de dados de contato acima, e enviar o restante do corpo do e-mail diretamente para <strong style="color:#00FF85;">${email}</strong>!
-            </p>
-          </div>
-
         </div>
       `;
 
