@@ -28,6 +28,7 @@ export default function DiagnosticoPage() {
   const [inputValue, setInputValue] = useState('');
   const [otherInput, setOtherInput] = useState('');
   const [showOther, setShowOther] = useState(false);
+  const [selectedChips, setSelectedChips] = useState([]);
   const [encerradoPorOfensa, setEncerradoPorOfensa] = useState(false);
 
   // Lead
@@ -153,6 +154,16 @@ export default function DiagnosticoPage() {
     return () => clearAllTimers();
   }, [currentQuestion, step]);
 
+  // ── Pausa inteligente do timer durante o carregamento da IA ──────────────────
+  // Skill: clean-code — Enquanto a IA está gerando a resposta (loading=true),
+  // paramos o intervalo para que o countdown não expire durante a espera.
+  useEffect(() => {
+    if (loading) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, [loading]);
+
   useEffect(() => { return () => clearAllTimers(); }, []);
 
   const handleResumeSession = () => {
@@ -233,6 +244,10 @@ export default function DiagnosticoPage() {
         setCtaStep('choice');
       } else {
         setCurrentQuestion(data);
+        setSelectedChips([]);
+        setShowOther(false);
+        setOtherInput('');
+        setInputValue('');
       }
     } catch (error) {
       console.error(error);
@@ -266,29 +281,38 @@ export default function DiagnosticoPage() {
     await fetchNextQuestion(answer, apiHistory);
   };
 
-  const handleChipSelect = async (opcao) => {
-    if (opcao === 'Outro') { setShowOther(true); return; }
+  const handleChipToggle = (opcao) => {
+    handleTyping(); // Renova o tempo de atividade do lead no timer
 
-    const apiHistory = [
-      ...history,
-      { role: 'assistant', content: currentQuestion.pergunta }
-    ];
-
-    setHistory(prev => [
-      ...prev,
-      { role: 'assistant', content: currentQuestion.pergunta },
-      { role: 'user', content: opcao }
-    ]);
-
-    setCurrentQuestion(null);
-    setShowOther(false);
-    await fetchNextQuestion(opcao, apiHistory);
+    if (selectedChips.includes(opcao)) {
+      setSelectedChips(prev => prev.filter(item => item !== opcao));
+      if (opcao === 'Outro') {
+        setShowOther(false);
+        setOtherInput('');
+      }
+    } else {
+      if (selectedChips.length >= 5) return;
+      setSelectedChips(prev => [...prev, opcao]);
+      if (opcao === 'Outro') {
+        setShowOther(true);
+      }
+    }
   };
 
-  const handleOtherSubmit = async (e) => {
+  const handleMultiSelectSubmit = async (e) => {
     e?.preventDefault();
-    const answer = otherInput.trim();
-    if (!answer) return;
+
+    const chipsWithoutOutro = selectedChips.filter(c => c !== 'Outro');
+    const hasOutro = selectedChips.includes('Outro');
+    const customText = hasOutro ? otherInput.trim() : '';
+
+    if (chipsWithoutOutro.length === 0 && !customText) return;
+
+    let answerParts = [...chipsWithoutOutro];
+    if (customText) {
+      answerParts.push(customText);
+    }
+    const answer = answerParts.join(', ');
 
     const apiHistory = [
       ...history,
@@ -302,8 +326,11 @@ export default function DiagnosticoPage() {
     ]);
 
     setCurrentQuestion(null);
+    setSelectedChips([]);
     setShowOther(false);
     setOtherInput('');
+    setInputValue('');
+
     await fetchNextQuestion(answer, apiHistory);
   };
 
@@ -493,30 +520,52 @@ export default function DiagnosticoPage() {
                   )}
 
                   {/* Chips / Options */}
-                  {(currentQuestion.tipo === 'chips' || currentQuestion.tipo === 'selecao') && !showOther && (
-                    <div className={styles.chipOptions}>
-                      {currentQuestion.opcoes?.map((op, i) => (
-                        <button key={i} onClick={() => handleChipSelect(op)} className={styles.chipButton}>{op}</button>
-                      ))}
-                    </div>
-                  )}
+                  {(currentQuestion.tipo === 'chips' || currentQuestion.tipo === 'selecao') && (
+                    <>
+                      <div className={styles.chipOptions}>
+                        {currentQuestion.opcoes?.map((op, i) => (
+                          <button
+                            key={i}
+                            onClick={() => handleChipToggle(op)}
+                            className={`${styles.chipButton} ${selectedChips.includes(op) ? styles.chipActive : ''}`}
+                          >
+                            {op}
+                          </button>
+                        ))}
+                      </div>
 
-                  {/* "Outro" free text */}
-                  {showOther && (
-                    <form onSubmit={handleOtherSubmit} className={styles.otherForm}>
-                      <input
-                        type="text"
-                        maxLength={120}
-                        value={otherInput}
-                        onChange={e => { setOtherInput(e.target.value); handleTyping(); }}
-                        placeholder="Descreva aqui..."
-                        className={styles.chatInput}
-                        autoFocus
-                      />
-                      <button type="submit" className={styles.sendButton} disabled={!otherInput.trim()}>
-                        <Send size={18} />
-                      </button>
-                    </form>
+                      {/* "Outro" free text */}
+                      {selectedChips.includes('Outro') && (
+                        <div className={styles.outroContainer}>
+                          <input
+                            type="text"
+                            maxLength={100}
+                            value={otherInput}
+                            onChange={e => { setOtherInput(e.target.value); handleTyping(); }}
+                            placeholder="Descreva outra opção em até 100 caracteres..."
+                            className={styles.outroInput}
+                            autoFocus
+                          />
+                          <span className={styles.charCounter}>{otherInput.length}/100</span>
+                        </div>
+                      )}
+
+                      {/* Botão Premium de Envio */}
+                      <div className={styles.submitContainer}>
+                        <button
+                          onClick={handleMultiSelectSubmit}
+                          disabled={selectedChips.length === 0 || (selectedChips.includes('Outro') && !otherInput.trim())}
+                          className={styles.premiumSubmitButton}
+                        >
+                          <span>
+                            {selectedChips.length === 0 || (selectedChips.includes('Outro') && !otherInput.trim())
+                              ? "Selecione uma opção..."
+                              : (selectedChips.length > 1 ? `Enviar ${selectedChips.length} Respostas` : "Enviar Resposta")}
+                          </span>
+                          <ArrowRight size={18} />
+                        </button>
+                      </div>
+                    </>
                   )}
                 </div>
               )}

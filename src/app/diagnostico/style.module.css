@@ -941,6 +941,89 @@
   color: #fff;
 }
 
+/* Multi-select active chip state */
+.chipButton.chipActive {
+  background: rgba(0, 255, 133, 0.15);
+  border-color: #00FF85;
+  color: #00FF85;
+  box-shadow: 0 0 12px rgba(0, 255, 133, 0.2);
+}
+
+/* Outro input panel container */
+.outroContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.outroInput {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.outroInput:focus {
+  outline: none;
+  border-color: #00FF85;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 255, 133, 0.1);
+}
+
+.charCounter {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Multi-select submit elements */
+.submitContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.premiumSubmitButton {
+  background: linear-gradient(135deg, #00FF85 0%, #00B8FF 100%);
+  color: #080808;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 255, 133, 0.2);
+}
+
+.premiumSubmitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 255, 133, 0.4), 0 0 15px rgba(0, 184, 255, 0.3);
+}
+
+.premiumSubmitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.premiumSubmitButton:disabled {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 /* ── RESPONSIVO ── */
 @media (max-width: 768px) {
   .container {
