@@ -60,14 +60,21 @@ CREATE TABLE IF NOT EXISTS leads (
   sessao_encerrada_por text
 );
 
+-- Garantir privilégios de tabela para as roles padrão do Supabase
+GRANT ALL ON TABLE public.leads TO anon, authenticated, service_role;
+
 -- Habilitar Row Level Security (RLS)
-ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 
--- Policy para inserção (permite que a API e o frontend possam gravar novos leads)
-CREATE POLICY "Allow insert" ON leads FOR INSERT WITH CHECK (true);
+-- Remover políticas anteriores para evitar conflito
+DROP POLICY IF EXISTS "Allow insert" ON public.leads;
+DROP POLICY IF EXISTS "Enable insert for all users" ON public.leads;
 
--- Policy para leitura protegida (bloqueia leitura pública)
-CREATE POLICY "Allow select for service role" ON leads FOR SELECT USING (false);
+-- Policy definitiva para inserção (permite que a API com chave anon possa gravar novos leads)
+CREATE POLICY "Enable insert for all users" ON public.leads FOR INSERT TO public WITH CHECK (true);
+
+-- Policy para leitura protegida (bloqueia leitura pública e permite apenas admin)
+CREATE POLICY "Allow select for service role" ON public.leads FOR SELECT USING (false);
 
 -- Atualiza o cache de schema da API do PostgREST imediatamente
 NOTIFY pgrst, 'reload schema';
